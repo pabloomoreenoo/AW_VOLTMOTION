@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica final</title>
+
+    <!-- ENLACE PARA USAR BOOTSTRAP-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link id="theme-style" rel="stylesheet" href="style.css"> <!--el id es importante para poder cambiar entre estilos-->
+
+</head>
+<body>
+
+    <!-- ========================= ENCABEZADO / PORTADA ========================= -->
+    <header> 
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light" aria-label="Navegación principal">
+            <div class="container-fluid">
+                <a class="navbar-brand ms-3" href="index.html">
+                    <img src="img/logo.jpg" alt="logo" width="60" height="60">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="vehiculos.html">Vehiculos</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="reservas.html">Reservas</a>
+                        </li>
+                        <li class="nav-item">  <!--data-bs-toogle: informa a Bootstrap que este link abre un offcanvas
+                                                hrfef: indica que offcanvas abre por id
+                                                role:importante para accesibilidad: el lector de pantalla entiende que, aunque parezca un enlace, se comporta como un botón
+                                                aria-controls: asocia control con el panel que gobierna -->
+                            <a id="nav-account"
+                            class="nav-link" 
+                            data-bs-toggle="offcanvas"     
+                            href="#offcanvasRight" 
+                            role="button" 
+                            aria-controls="offcanvasRight"
+                            aria-label="Abrir panel de cuenta">
+                            Cuenta
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                data-bs-toggle="offcanvas"     
+                                href="#offcanvasSettings" 
+                                role="button" 
+                                aria-controls="offcanvasSettings"
+                                aria-label="Abrir panel de ajustes">
+                                Ajustes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" role="dialog">
+                <div class="offcanvas-header"> <!--Cogido de bootstrap-->
+                        <h5 id="offcanvasRightLabel">Accede a tu cuenta</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div id="offcanvas-account-body">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                            <span class="error" id="error-email" aria-live="polite"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password"
+                            name="password">
+                            <span class="error" id="error-password" aria-live="polite"></span>
+                        </div>
+                        <div class="signIn-buttons mt-4 d-grid gap-3">
+                                <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesion</button>
+                                <button class="btn btn-primary" type="button" id="openRegisterModal">Crear cuenta</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettingsLabel" role="dialog">
+            <div class="offcanvas-header"> <!--Cogido de bootstrap-->
+                        <h5 id="offcanvasSettingsLabel">Ajustes</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="offcanvas-bar">
+                    <li class="nav-item">
+                        <a id = "nav-contraste" class="nav-link" href="#" aria-label="Alternar modo de alto contraste"
+                            role="button" aria-pressed="false">
+                            Contraste
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <label for="select-idioma" class="form-label">Idioma</label>
+                        <select name="select-idioma" id="select-idioma" aria-label="Selector de idioma">
+                            <option value="es" lang="es" selected>Español</option>
+                            <option value="en" lang="en">English</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+   
+    </header>
+     
+
+    <!-- ========================= CONTENIDO PRINCIPAL ========================= -->
+     <main>   
+
+    <section class="hero" id="imagenFondo">  <!-- Duda aqui sobre el fieldset de la p3-->
+        <h1 class="visually-hidden">Reserva tu coche electrico con VOLTMOTION</h1>
+        <img src="img/tesla_coche.jpg" class="d-block w-100" alt="coche electrico en ciudad">
+
+        <div class="hero-forma">
+            <div class="container-fluid">
+                <form class="row g-3  align-items-end hero-forma bg-light bg-opacity-90 p-2 p-md-4 rounded shadow"
+                action="#"
+                method="get"
+                aria-label="formulario inicial ayuda-reserva">
+
+                <div class="col-12 col-lg-3 col-md-5">
+                    <label for="lugar-recogida" class="form-label">Lugar de recogida</label>
+                    <input type="text"
+                    id="lugar-recogida"
+                    name="lugar-recogida"
+                    class="form-control"
+                    placeholder="Ciudad, aeropuerto..."
+                    required>
+                </div>
+                <div class="col-12 col-lg-3 col-md-5">
+                    <label for="Lugar-devolucion" class="form-label">Lugar de devolución</label>
+                    <input type="text"
+                    id="Lugar-devolucion"
+                    name="Lugar-devolucion"
+                    class="form-control"
+                    placeholder="Ciudad, aeropuerto..."
+                    required>
+                </div>
+                <div class="col-12 col-lg-2 col-md-3">
+                    <label for="inicio-reserva" class="form-label">Inicio-reserva</label>
+                    <input type="datetime-local"
+                    id="inicio-reserva"
+                    name="inicio-reserva" required>
+                </div>
+                <div class="col-12 col-lg-2 col-md-3">
+                    <label for="inicio-reserva" class="form-label">Fin-reserva</label>
+                    <input type="datetime-local"
+                    id="fin-reserva"
+                    name="fin-reserva" required>
+                </div>
+                <div class="col-12 col-lg-2 col-md-2 d-grid ">
+                    <button type="submit" class="btn btn-primary mt-4">Buscar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid bg-light py-5 ms-3 text-center">
+        <h2>Nuestros principales proovedores:</h2>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/tesla.png" alt="logo tesla" width="50" height="55">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/hyundai.webp" alt="logo hyundai" width="60" height="65">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/kia.jpg" alt="logo kia" width="65" height="65">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/byd.webp" alt="logo byd" width="60" height="65">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/volvo.jpg" alt="logo volvo" width="65" height="60">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <img src="img/mercedes.jpg" alt="logo mercedes" width="80" height="65">
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center">ACERCA DE</h2>
+        <div class="row">
+            <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia eius assumenda tenetur sapiente illum commodi. Nulla rerum tenetur, vitae illo magni cupiditate repudiandae corrupti, nostrum laborum ea nemo nam error.</div>
+            <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime odio cupiditate alias vitae. Nihil harum, soluta perspiciatis magni deserunt nam, dolores cupiditate consectetur sint, dolore quod esse! Illum, aliquid nobis?</div>
+        </div>
+    </div>
+
+    <!--Tarjetas-->
+    <div class="container2 mt-5 ms-3">
+        <h2>Destinos más populares:</h2>
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/valencia.jpg" class="card-img-top" alt="valencia">
+                    <div class="card-body">
+                        <h5 class="card-title">Valencia</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/barcelona.jpg" class="card-img-top" alt="barcelona">
+                    <div class="card-body">
+                        <h5 class="card-title">Barcelona</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/madrid.jpg" class="card-img-top" alt="madrid">
+                    <div class="card-body">
+                        <h5 class="card-title">Madrid</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/zaragoza.jpg" class="card-img-top" alt="zaragoza">
+                    <div class="card-body">
+                        <h5 class="card-title">Zaragoza</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/sevilla.jpg" class="card-img-top" alt="sevilla">
+                    <div class="card-body">
+                        <h5 class="card-title">Sevilla</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/bilbao.webp" class="card-img-top" alt="bilbao">
+                    <div class="card-body">
+                        <h5 class="card-title">Bilbao</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid mt-5"></div>   
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center mb-4">Preguntas frecuentes</h2>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            ¿Qué necesito para alquilar un coche eléctrico?
+                        </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" role="region">
+                        <div class="accordion-body">Solo necesitas tener el carné de conducir en vigor, un método de pago válido y registrarte en nuestra plataforma. Una vez registrado, podrás reservar y recoger tu vehículo de forma totalmente digital.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            ¿Cuánto tiempo puedo reservar un vehículo?
+                        </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample" role="region">
+                        <div class="accordion-body">Puedes alquilarlo desde una hora hasta varios días, según tus necesidades. Nuestra plataforma te mostrará la disponibilidad en tiempo real y los precios actualizados antes de confirmar tu reserva.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                            ¿Dónde puedo recoger y devolver el coche?
+                        </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample" role="region">
+                        <div class="accordion-body">Puedes recoger y devolver el coche en cualquiera de nuestros concesionarios asociados. En el mapa de la aplicación verás el punto más cercano y el horario de apertura de cada base.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                            ¿Qué pasa si el coche se queda sin batería durante el alquiler?
+                        </button>
+                        </h2>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample" role="region">
+                        <div class="accordion-body">Nuestros vehículos cuentan con una amplia autonomía. Aun así, puedes usar cualquiera de los puntos de carga disponibles en la red pública. También dispones de asistencia 24 h en carretera incluida en tu reserva.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                            ¿Puedo cancelar o modificar una reserva?
+                        </button>
+                        </h2>
+                        <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample" role="region">
+                        <div class="accordion-body">Sí, puedes cancelar o modificar tu reserva desde tu perfil de usuario. Si lo haces con al menos 24 horas de antelación, no se aplicarán cargos adicionales.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <h2 class="text-center mb-4">¿Por qué confiar en VOLTMOTION?</h2>
+                <div class="row gy-3"> <!--Gap en el eje y-->
+                    <div class="col-12 d-flex ms-3"><!--d-flex(Bootstrap) significa que los <div> de dentro se colocan en una fila, uno al lado del otro-->
+                        <div class="me-3 flex-shrink-0"><!--el icono no se encoge si falta espacio-->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Experiencia y profesionalidad</h5><!--mb-1(margin bottom) para separar el titulo del parrafo-->
+                                <p class="mb-0 small text-muted"><!--small(texto mas pequeños y text-muted en un tono mas claro)-->
+                                    Un equipo especializado en movilidad eléctrica y cientos de reservas
+                                    gestionadas con éxito.
+                                </p>
+                            </div>
+                        </div>
+
+                    <div class="col-12 d-flex ms-3">
+                        <div class="me-3 flex-shrink-0">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Flota 100&nbsp;% eléctrica y revisada</h5><!--non breakable space-->
+                            <p class="mb-0 small text-muted">
+                                Vehículos de cero emisiones con revisiones periódicas para garantizar
+                                seguridad y confort.
+                            </p>
+                        </div>    
+                    </div>
+
+                    <div class="col-12 d-flex ms-3">
+                        <div class="me-3 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Reservas rápidas y sencillas</h5>
+                            <p class="mb-0 small text-muted">
+                                Todo el proceso se realiza online: eliges vehículo, horario y concesionario
+                                en cuestión de minutos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-flex ms-3">
+                        <div class="me-3 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                        </div>
+                        <div>
+                             <h5 class="mb-1">Atención 24&nbsp;h al cliente</h5>
+                             <p class="mb-0 small text-muted">
+                                Soporte permanente para ayudarte ante cualquier incidencia durante tu
+                                reserva.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+     <!-- ========================= PIE DE PÁGINA ========================= -->
+  <footer>
+    <div class="div text-center mt-5">
+         <p >
+      Plataforma académica de demostración. Todos los derechos reservados &copy; 2025.
+    </p>
+    </div>
+  </footer>
+ 
+   <script>
+        const contrasteLink = document.getElementById('nav-contraste');
+        const themeStyle = document.getElementById('theme-style');
+
+        const THEME_LIGHT = 'style.css';
+        const THEME_DARK = 'style-contrast.css';
+
+        const savedTheme = localStorage.getItem('theme') || THEME_LIGHT; // tema guardado al cargar la pagina
+
+        if(savedTheme === 'contrast'){
+            themeStyle.href = THEME_DARK;
+            contrasteLink.setAttribute('aria-pressed', 'true');
+        } else {
+            themeStyle.href = THEME_LIGHT;
+            contrasteLink.setAttribute('aria-pressed', 'false');
+        }
+
+        contrasteLink.addEventListener('click', function(event){
+            event.preventDefault();
+
+            const isContrast = themeStyle.getAttribute('href') === THEME_DARK;
+
+            if(isContrast){
+                themeStyle.href = THEME_LIGHT;
+                contrasteLink.setAttribute('aria-pressed', 'false');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeStyle.href = THEME_DARK;
+                contrasteLink.setAttribute('aria-pressed', 'true');
+                localStorage.setItem('theme', 'contrast');
+            }
+        });
+
+        const htmlElement = document.documentElement;
+        const languageSelect = document.getElementById('select-idioma');
+
+        const savedLanguage = localStorage.getItem('language') || 'es';
+
+        if(savedLanguage){
+            htmlElement.lang = savedLanguage;
+            languageSelect.value = savedLanguage;
+        }else{
+            htmlElement.lang = 'es';
+            languageSelect.value = 'es';
+        }
+
+        languageSelect.addEventListener('change', function(){
+            const selectedLanguage = languageSelect.value;
+            htmlElement.lang = selectedLanguage;
+            localStorage.setItem('language', selectedLanguage);
+
+            console.log('Idioma cambiado a: ' + selectedLanguage);
+        });
+
+   </script>
+
+   <!-- scripts UI-->
+    
+   <script src="js/api.js"></script>
+   <script src="js/accesibility-ui.js"></script>
+   <script src="js/admin.js"></script>
+   <script src="js/hero-search.js"></script>
+   <script src="js/auth-ui.js"></script>
+   <script src="js/vehicles.js"></script>
+    
+   
+    <!--Link para poder utilizar JS con bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <script src="formulario.js"></script> <!-- para las validaciones cuando hagamos el sing in/sign up-->
+   
+   <!-- Modal Registro (fuera de offcanvas, al final del body) -->
+    <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="form-register" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRegisterLabel">Crear cuenta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                        <div id="register-server-error" class="alert alert-danger d-none" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label for="reg-nombre" class="form-label">Nombre completo</label>
+                            <input id="reg-nombre" class="form-control" required minlength="3">
+                            <div id="err-nombre" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-correo" class="form-label">Correo (@ucm.es)</label>
+                            <input id="reg-correo" type="email" class="form-control" required>
+                            <div id="err-correo" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-contrasena" class="form-label">Contraseña</label>
+                            <input id="reg-contrasena" type="password" class="form-control" required minlength="8">
+                            <div id="err-contrasena" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-confirm" class="form-label">Confirmar contraseña</label>
+                            <input id="reg-confirm" type="password" class="form-control" required>
+                            <div id="err-confirm" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-telefono" class="form-label">Teléfono (opcional)</label>
+                            <input id="reg-telefono" type="tel" class="form-control" pattern="[0-9]{9}">
+                            <div id="err-telefono" class="invalid-feedback"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-register-cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="btn-register-submit" type="submit" class="btn btn-primary">Crear cuenta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

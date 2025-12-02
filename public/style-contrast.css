@@ -1,0 +1,101 @@
+/* =========================
+   VoltFleet - styles-contrast.css
+   Tema de alto contraste (WCAG-friendly)
+   ========================= */
+
+body{
+  background-color: #000; /* Fondo negro */
+  color: #FFF; /* Texto blanco */
+}
+
+header, footer, .navbar{
+  background-color: #000 !important; /*el important aplica prioridad*/
+  color: #FFF !important;
+}
+
+.navbar .nav-link{
+  color: #FFF !important;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:focus, 
+.navbar .nav-link:hover{
+  color: #00ffff !important;
+}
+
+/* Botones */
+.btn-primary,
+.btn {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+.offcanvas button{
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+
+
+/*tablas, cards, etc..*/
+.card, .accordion-item, .offcanvas, .accordion-button{
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+/* Foco súper visible (accesibilidad) */
+:where(a, button, input, select, textarea, .nav-link):focus-visible {
+    outline: 3px solid #ff00ff;
+    outline-offset: 3px;
+}
+
+.hero{
+    position: relative;  /* para posicionar elementos dentro de .hero si es necesario */
+}
+
+.hero img{
+    height: 700px;
+    /*display: block;
+    width: 100%; esto ya esta metido en la clase Bootstrap*/
+    width: 100%;
+}
+
+.hero-forma{
+    position: absolute;
+    top: 10%; /*distancia a la parte superior del contenedor .hero*/
+     left: 50%;
+    transform: translateX(-50%); /*centra horizontalmente el formulario*/
+
+    width: 100%;
+    pointer-events: none; /*los clicks los activamos para el contenedor hijo */
+}
+
+.hero form{
+    max-width: 1450px;
+    margin-inline: auto;/*centra el formulario dentro del contenedor .hero-forma*/
+    pointer-events: auto; /*habilita los clicks en el formulario*/
+
+}
+
+.hero-forma .form-label{
+    margin-bottom: 0.4rem;
+    margin-inline-start: 0.5rem;
+}
+
+.hero-forma .form-control{
+   
+    margin-left: 0.5rem; 
+}
+
+.hero-forma button{
+    background-color:lightgray;
+    border-color: black;
+    color: black;
+}
+
+.hero-forma button:hover{
+    background-color: darkslategrey;
+}

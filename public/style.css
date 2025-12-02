@@ -1,0 +1,138 @@
+/*.carousel-item img{
+    height: 700px;
+}*/
+
+.hero{
+    position: relative;  /* para posicionar elementos dentro de .hero si es necesario */
+}
+
+.hero img{
+    height: 700px;
+    /*display: block;
+    width: 100%; esto ya esta metido en la clase Bootstrap*/
+    width: 100%;
+}
+
+.hero-forma{
+    position: absolute;
+    top: 15%; /*distancia a la parte superior del contenedor .hero*/
+     left: 50%;
+    transform: translateX(-50%); /*centra horizontalmente el formulario*/
+
+    width: 100%;
+    pointer-events: none; /*los clicks los activamos para el contenedor hijo */
+}
+
+.hero form{
+    max-width: 1450px;
+    margin-inline: auto;/*centra el formulario dentro del contenedor .hero-forma*/
+    pointer-events: auto; /*habilita los clicks en el formulario*/
+
+}
+
+.hero-forma .form-label{
+    margin-bottom: 0.4rem;
+    margin-inline-start: 0.5rem;
+}
+
+.hero-forma .form-control{
+   
+    margin-left: 0.5rem; 
+}
+
+
+.hero-forma button{
+    background-color:lightgray;
+    border-color: black;
+    color: black;
+}
+
+.hero-forma button:hover{
+    background-color: darkslategrey;
+}
+
+
+
+/* Position the "Nuestros proovedores" heading in the top-left of its container */
+.container-fluid.bg-light.py-5.ms-3.text-center{
+    position: relative; /* establish containing block for absolutely positioned h2 */
+}
+
+.container-fluid.bg-light.py-5.ms-3.text-center  h2{
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 0.9rem; /* smaller text */
+    margin: 0;
+    text-align: left; /* override the parent's text-center */
+}
+
+.container2.mt-5.ms-3 h2{
+    font-size: 1.1rem;
+    text-decoration: underline;
+}
+
+
+.container2.mt-5.ms-3 img{
+    height: 200px;
+}
+
+.btn-primary{
+    background-color:lightgray;
+    border-color: black;
+    color: black;
+}
+.btn-primary:hover{
+    background-color: darkslategrey;
+}
+
+.btn-primary:active{
+    background-color: gray;
+    border-color: black;
+    color: black;
+}
+
+.btn-primary:active:focus{
+    background-color: gray;
+    border-color: black;
+    color: black;
+}
+
+.btn-outline-primary{
+    background-color:lightgray;
+    border-color: black;
+    color: black;
+}
+.btn-outline-primary:hover{
+    background-color: darkslategrey;
+}
+
+.btn-outline-primary:active{
+    background-color: gray;
+    border-color: black;
+    color: black;
+}
+
+.btn-outline-primary:active:focus{
+    background-color: gray;
+    border-color: black;
+    color: black;
+}
+
+.me-3.flex-shrink-0 svg{
+    height: 50px;
+    width: 20px;
+    
+}
+
+.bestSellers{
+    text-align: center;
+}
+
+#modalRegister .modal-content{
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+#modalRegister .form-text { color: #6c757d; }
+
