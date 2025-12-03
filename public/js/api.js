@@ -37,7 +37,7 @@ const api = {
 
     async getVehiculos(query = {}){
         const qs = new URLSearchParams(query).toString(); 
-        const res = await fetch('/api/vehiculos' + (qs ? `?${qs}` : ''), { credentials: 'same-origin' });
+        const res = await fetch('/api/vehicles' + (qs ? `?${qs}` : ''), { credentials: 'same-origin' });
         return res.ok ? res.json() : Promise.reject(await res.json());
     },
 

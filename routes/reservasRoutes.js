@@ -16,7 +16,11 @@ async function isAvailable(id_vehiculo, inicio, fin){
 // crear reserva
 router.post('/', ensureAuthenticated, async (req, res) =>{
     const {id_vehiculo, fecha_inicio, fecha_fin} = req.body; 
-    const usuario = req.session.user.id; 
+    const id_usuario = req.session.user && req.session.user.id;
+    if(!id_usuario) return res.status(401).json({error: 'No autorizado'}); 
+    if(!id_vehiculo || !fecha_inicio || !fecha_fin){
+        return res.status(400).json({error: 'Faltan datos obligatorios'}); 
+    }
     try{
         // compruebo disponibilidad
         const disponible = await isAvailable(id_vehiculo, fecha_inicio, fecha_fin); 
@@ -40,7 +44,8 @@ router.post('/', ensureAuthenticated, async (req, res) =>{
 
 // mostrar reservas
 router.get('/mias', ensureAuthenticated, async(req, res) =>{
-    const usuario = req.session.user.id; 
+    const id_usuario = req.session.user && req.session.user.id;
+    if(!id_usuario) return res.status(401).json({error: 'No autorizado'});
     try{
         const [rows] = await pool.query(
       `SELECT r.*, v.matricula, v.marca, v.modelo FROM reservas r JOIN vehiculos v ON r.id_vehiculo = v.id_vehiculo

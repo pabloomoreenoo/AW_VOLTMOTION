@@ -6,11 +6,24 @@ let _registerModalInitialized = false;
 document.addEventListener('DOMContentLoaded', () => {
   const navAccount = document.getElementById('nav-account');
   const offcanvasBodyWrapper = document.getElementById('offcanvas-account-body');
+  const navActividad = document.getElementById('nav-actividad'); 
 
   const selectors = {
     offcanvasId: 'offcanvasRight',
     modalId: 'modalRegister'
   };
+
+  function setActividadVisibility(visible){
+    if(!navActividad) return; 
+
+    if(visible){
+      navActividad.hidden = false; 
+      navActividad.removeAttribute('aria-hidden'); 
+    }else{
+      navActividad.hidden = true; 
+      navActividad.setAttribute('aria-hidden', 'true'); 
+    }
+  }
 
   function getLoginElements() {
     return {
@@ -349,5 +362,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // asegurar que modal existe en DOM y se inicialice si ya fue creado en HTML
     setupRegisterModal();
   })();
+
+  document.addEventListener('app:user:login', (ev) =>{
+    setActividadVisibility(true); 
+  })
+
+  document.addEventListener('app:user:logout', (ev) =>{
+    setActividadVisibility(false); 
+  })
 
 });

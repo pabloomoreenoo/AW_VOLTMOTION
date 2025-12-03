@@ -1,125 +1,251 @@
-// public/js/reservas-ui.js
-document.addEventListener('DOMContentLoaded', async () => {
-  //const selectVeh = document.getElementById('vehiculo-select');
-  const fechaInput = document.getElementById('fecha-reserva');
-  const duracionInput = document.getElementById('duracion');
+document.addEventListener('DOMContentLoaded',  () => {
+  const section = document.getElementById('reservas'); 
   const form = document.getElementById('form-reserva');
-  const progressBar = document.getElementById('form-progress');
+
+  const inputNombre = document.getElementById('nombre-reserva'); 
+  const inputEmail = document.getElementById('email-reserva');
+  const inputInicio = document.getElementById('fecha-reserva-inicio');
+  const inputFin = document.getElementById('fecha-reserva-fin');
+  const inputMarca = document.getElementById('vehiculo-marca'); 
+  const inputModelo = document.getElementById('vehiculo-modelo');
+  const inputMatricula = document.getElementById('vehiculo-matricula');
+
+  const progressBar = document.getElementById('form-progress'); 
   const progressText = document.getElementById('progress-text');
-  const globalMsg = document.getElementById('global-msg');
+  const btnReset = document.getElementById('btn-reset-reserva'); 
+  const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
 
-  const vehiculoMarca = document.getElementById('vehiculo-marca').value.trim();
-  const vehiculoModelo = document.getElementById('vehiculo-modelo').value.trim();
-  const vehiculoMatricula = document.getElementById('vehiculo-matricula').value.trim();
+  const fields = [inputNombre, inputEmail, inputInicio, inputFin]; 
 
-  // 1) Cargar vehículos y rellenar select
-  try {
-    const vehiculos = await window.api.getVehiculos();
-    if (!vehiculos || !vehiculos.length) {
-      selectVeh.innerHTML = '<option value="">No hay vehículos disponibles</option>';
-    } else {
-      selectVeh.innerHTML = '<option value="">Selecciona un vehículo</option>';
-      vehiculos.forEach(v => {
-        // adapta campos según tu API: v.id_vehiculo, v.marca, v.modelo
-        const opt = document.createElement('option');
-        opt.value = v.id_vehiculo || v.id || v.idVehiculo; // intenta varias claves
-        opt.textContent = `${v.marca || ''} ${v.modelo || ''} — ${v.autonomia_km || ''}km`;
-        selectVeh.appendChild(opt);
-      });
-    }
-  } catch (err) {
-    console.error('Error cargando vehículos', err);
-    selectVeh.innerHTML = '<option value="">Error cargando vehículos</option>';
+  function isValidEmail(email){
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
   }
 
-  // 2) Actualizar barra de progreso según campos completados
-  function updateProgress() {
-    const total = 4; // nombre, email, fecha, vehiculo (duración también)
+   function getVehicleIdFromQuery(){
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || params.get('vehiculo_id') || params.get('id_vehiculo');
+    if(!id) return null;
+    const n = Number(id);
+    return isNaN(n) ? null : n;
+  }  
+
+  // actualizar la barra de progreso
+  function updateProgress(){
     let filled = 0;
-    if (document.getElementById('nombre-reserva').value.trim()) filled++;
-    if (document.getElementById('email-reserva').value.trim()) filled++;
-    if (fechaInput.value) filled++;
-    if (selectVeh.value) filled++;
-    // opcional: duracion
-    if (duracionInput.value) filled++;
-    const percent = Math.round((filled / (total + 1)) * 100);
-    progressBar.style.width = `${percent}%`;
+    fields.forEach(f =>{
+      if(f && f.value && f.value.trim() !== '') filled++;
+    }); 
+    const percent = Math.round((filled / fields.length) * 100);
+    progressBar.style.width = percent + '%';
     progressBar.setAttribute('aria-valuenow', percent);
-    progressText.textContent = `Compleción del formulario: ${percent}%`;
+    progressText.textContent = `Progreso: ${percent}%`;
   }
 
-  ['input', 'change'].forEach(ev => {
-    document.querySelectorAll('#form-reserva input, #form-reserva select').forEach(el => el.addEventListener(ev, updateProgress));
-  });
 
-  updateProgress();
+  async function findVehicleByMatricula(matricula){
+    if(!matricula) return null;
+    const m = matricula.trim();
+    try{
+      const res = await fetch(`/api/vehicles?matricula=` + encodeURIComponent(m),{
+        cache: 'no-store',
+        headers: {'Accept': 'application/json'},
+      });
+      if(!res.ok) return null; 
+      const data = await res.json();
+      if(data == null)return null; 
+      if(Array.isArray(data))return data[0] || null; 
+      if(data && data.ok && Array.isArray(data.vehiculos)) return data.vehiculos[0] || null;
+      if(data.id_vehiculo || data.idVehiculo || data.id) return data; 
+      return null; 
+    }catch(err){
+      console.warn('Error buscando vehículo por matrícula', err);
+      return null;
+    }
+  }
 
-  // 3) Manejar submit: construir payload y llamar a API
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    // limpiar mensajes
-    document.querySelectorAll('#form-reserva .error').forEach(s => s.textContent = '');
-    globalMsg.textContent = '';
+  function openAccountOffcanvas(){
+    const offEl = document.getElementById('offcanvasRight');
+    if(!offEl) return;
+    const inst = bootstrap.Offcanvas.getOrCreateInstance(offEl) || new bootstrap.Offcanvas(offEl);
+    inst.show(); 
+  }
 
-    const nombre = document.getElementById('nombre-reserva').value.trim();
-    const email = document.getElementById('email-reserva').value.trim();
-    const fechaInicio = fechaInput.value;
-    const vehiculoId = selectVeh.value;
-    const duracion = Number(duracionInput.value) || 0;
-
-    // validaciones básicas
-    if (!nombre) { document.getElementById('error-nombre').textContent = 'Nombre requerido'; return; }
-    if (!email) { document.getElementById('error-email').textContent = 'Email requerido'; return; }
-    if (!fechaInicio) { document.getElementById('error-fecha').textContent = 'Fecha de inicio requerida'; return; }
-    if (!vehiculoId) { document.getElementById('error-vehiculo').textContent = 'Selecciona un vehículo'; return; }
-    if (duracion <= 0) { document.getElementById('error-duracion').textContent = 'Duración mínima 1 hora'; return; }
-
-    // calcular fecha fin sumando horas a fechaInicio
-    // fechaInicio está en formato "YYYY-MM-DDTHH:MM"
-    const start = new Date(fechaInicio);
-    if (isNaN(start)) { document.getElementById('error-fecha').textContent = 'Formato de fecha/hora inválido'; return; }
-    const end = new Date(start.getTime() + duracion * 60 * 60 * 1000);
-
-    // construir payload según backend
-    const payload = {
-        // si tu backend acepta id_vehiculo, deja undefined; en esta opción enviamos info libre
-        vehiculo: {
-            marca: vehiculoMarca || null,
-            modelo: vehiculoModelo || null,
-            matricula: vehiculoMatricula || null,
-            categoria: document.getElementById('vehiculo-tipo') ? document.getElementById('vehiculo-tipo').value : null
-        },
-        fecha_inicio: start.toISOString().slice(0,19),
-        fecha_fin: end.toISOString().slice(0,19),
-        cliente: {
-            nombre: nombre,
-            email: email
-        }
-    };
-
-    try {
-      const res = await window.api.createReserva(payload);
-      if (res.ok) {
-        globalMsg.className = 'alert alert-success';
-        globalMsg.textContent = 'Reserva creada correctamente';
-        form.reset();
-        updateProgress();
-      } else {
-        globalMsg.className = 'alert alert-danger';
-        globalMsg.textContent = res.error || 'Error creando reserva';
+  async function isUserLogged(){
+    if(window.api && typeof window.api.whoami === 'function'){
+      try{
+        const who = await window.api.whoami();
+        return !!(who && who.ok && who.user); 
+      }catch(err){
+        return false; 
       }
-    } catch (err) {
-      console.error(err);
-      globalMsg.className = 'alert alert-danger';
-      globalMsg.textContent = 'Error de conexión al servidor';
+    }
+    return false; 
+  }
+
+  function showLoginRequiredMessage(){
+    if(!section) return; 
+    // ocultamos el formulario
+    if(form) form.style.display = 'none';
+
+    if(document.getElementById('reservas-login-msg')) return;
+
+    // mostramos mensaje
+    const msg = document.createElement('div');
+    msg.className = 'alert alert-warning';
+    msg.id = 'reservas-login-msg'; 
+    msg.innerHTML = `
+      <p><strong>Inicia sesión con tu cuenta para poder realizar reservas.</strong></p>
+      <div class="d-flex gap-2">
+        <button id="btn-open-login-from-reservas" class="btn btn-primary btn-sm">Iniciar sesión / Crear cuenta</button>
+      </div>
+    `;
+    
+    const h2 = section.querySelector('h2');
+    if(h2 && h2.parentNode) {
+      h2.insertAdjacentElement('afterend', msg);
+    } else {
+      section.insertBefore(msg, section.firstChild);
+    }
+
+    const btn = document.getElementById('btn-open-login-from-reservas');
+    if(btn) btn.addEventListener('click', (e) =>{
+      e.preventDefault();
+      openAccountOffcanvas();
+    });
+  }
+
+  function showFormAndPrefill(user){
+    if(!form) return; 
+    form.style.display = ''; 
+
+    if(user){
+      if(user.nombre && inputNombre && !inputNombre.value) inputNombre.value = user.nombre;
+      if(user.correo && inputEmail && !inputEmail.value) inputEmail.value = user.correo;
+    }
+    updateProgress(); 
+  }
+
+  if(btnReset){
+    btnReset.addEventListener('click', (e) =>{
+    e.preventDefault();
+    if(form)form.reset();
+    updateProgress();
+    });
+  }
+
+  fields.forEach(f =>{ if(f) f.addEventListener('input', updateProgress); });
+
+  if(form){
+    form.addEventListener('submit', async(ev) =>{
+    ev.preventDefault();
+
+    const nombre = inputNombre.value.trim(); 
+    const email = inputEmail.value.trim();
+    const fecha_inicio = inputInicio.value;
+    const fecha_fin = inputFin.value;
+    const matricula = inputMatricula.value.trim();
+
+    if(!nombre || nombre.length < 3)return alert('Por favor, introduce un nombre válido.');
+    if(!email || !isValidEmail(email)) return alert('Por favor, introduce un email válido.');
+    if(!fecha_inicio) return alert('Por favor, selecciona una fecha de inicio de la reserva.');
+    if(!fecha_fin) return alert('Por favor, selecciona una fecha de fin de la reserva.');
+    if(new Date(fecha_inicio) >= new Date(fecha_fin)) return alert('La fecha de fin debe ser posterior a la fecha de inicio.');
+    //if(!matricula) return alert('Matrícula del vehículo no especificada.');
+
+    const submitBtnLocal = submitBtn; 
+    if(submitBtnLocal){
+      submitBtnLocal.disabled = true;
+      submitBtnLocal.textContent = 'Procesando...';
+    }
+
+    try{
+      let id_vehiculo = null; 
+
+      if(matricula){
+        const vehicle = await findVehicleByMatricula(matricula);
+        if(!vehicle){
+          const ok = confirm('No se ha encontrado el vehículo con matrícula ' + matricula + '. ¿Quieres registrarte o iniciar sesión para continuar?');
+          if(!ok){
+            throw new Error('Vehículo no encontrado.');
+          }
+        }else{
+          id_vehiculo = vehicle.id_vehiculo || vehicle.idVehiculo || vehicle.id || null;
+          if(id_vehiculo){
+            if(inputMarca && !inputMarca.value){
+              inputMarca.value = vehicle.marca || '';
+            }
+            if(inputModelo && !inputModelo.value){
+              inputModelo.value = vehicle.modelo || '';
+            }
+          }
+        }
+      }
+
+      if(!id_vehiculo){
+        alert('No se ha podido identificar el vehículo. Por favor, inserta una matrícula válida.');
+        throw new Error('Vehículo no identificado.');
+      }
+
+      const payload = {
+        id_vehiculo: Number(id_vehiculo),
+        fecha_inicio: fecha_inicio, 
+        fecha_fin: fecha_fin
+      };
+
+      const res = await fetch('/api/reservas',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+        body: JSON.stringify(payload)
+      });
+
+      const body = await (res.headers.get('Content-Type') || '').includes('application/json') ? await res.json() : null;
+
+      if(!res.ok){
+        const message = (body && (body.error || body.message)) || 'Error procesando la reserva.';
+        throw new Error(message);
+      }
+
+      alert('Reserva creada con éxito. ID de reserva: ' + (body && body.id_reserva ? body.id_reserva : 'N/A'));
+      form.reset();
+      updateProgress();
+      
+      
+    }catch(err){
+      console.error('Error creando reserva', err);
+      alert('Error creando reserva: ' + err.message);
+    }finally{
+      if(submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crear Reserva';
+      }
+      location.reload();
     }
   });
+  }
 
-  // reset button
-  document.getElementById('btn-reset-reserva').addEventListener('click', () => {
-    form.reset();
-    updateProgress();
-    globalMsg.textContent = '';
-  });
+  (async function init(){
+    try{
+      const logged = await isUserLogged();
+      if(!logged){
+        showLoginRequiredMessage();
+      }else{
+        let user = null;
+        try{
+          const who = await window.api.whoami();
+          if(who && who.ok && who.user) user = who.user;
+        }catch(err){
+          console.warn('No se pudo obtener información del usuario', err);
+        }
+        showFormAndPrefill(user);
+      }
+    }catch(err){
+      console.error('Error inicializando la página de reservas', err);
+      showFormAndPrefill(null); 
+    }
+  })(); 
 
-});
+  updateProgress(); 
+
+})

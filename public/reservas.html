@@ -7,9 +7,7 @@
 
     <!-- ENLACE PARA USAR BOOTSTRAP-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!--Link para poder utilizar JS con bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    
     <link id="theme-style" rel="stylesheet" href="style.css"> <!--el id es importante para poder cambiar entre estilos-->
 </head>
 <body>
@@ -38,7 +36,7 @@
                                                 hrfef: indica que offcanvas abre por id
                                                 role:importante para accesibilidad: el lector de pantalla entiende que, aunque parezca un enlace, se comporta como un botón
                                                 aria-controls: asocia control con el panel que gobierna -->
-                            <a class="nav-link" 
+                            <a id="nav-account" class="nav-link" 
                             data-bs-toggle="offcanvas"     
                             href="#offcanvasRight" 
                             role="button" 
@@ -62,31 +60,33 @@
             </div>
         </nav>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" role="dialog">
                 <div class="offcanvas-header"> <!--Cogido de bootstrap-->
                         <h5 id="offcanvasRightLabel">Accede a tu cuenta</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                        <span class="error" id="error-email" aria-live="polite"></span>
-                    </div>
+                    <div id="offcanvas-account-body">
                         <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password"
-                        name="password">
-                        <span class="error" id="error-password" aria-live="polite"></span>
-                    </div>
-                    <div class="signIn-buttons mt-4 d-grid gap-3">
-                            <button class="btn btn-primary" type="button">Iniciar sesion</button>
-                            <button class="btn btn-primary" type="button">Crear cuenta</button>
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                            <span class="error" id="error-email" aria-live="polite"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password"
+                            name="password">
+                            <span class="error" id="error-password" aria-live="polite"></span>
+                        </div>
+                        <div class="signIn-buttons mt-4 d-grid gap-3">
+                                <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesion</button>
+                                <button class="btn btn-primary" type="button" id="openRegisterModal">Crear cuenta</button>
+                        </div>
                     </div>
                 </div>
         </div>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettingsLabel">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettingsLabel" role="dialog">
             <div class="offcanvas-header"> <!--Cogido de bootstrap-->
                         <h5 id="offcanvasSettingsLabel">Ajustes</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -100,12 +100,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a id="nav-actividad" class="nav-link" href="#" aria-label="Mostrar actividad del usuario en la web"
+                            role="button" aria-pressed="false" hidden>
+                            Actividad 
+                        </a>
+                    </li>
+                    <!--
+                    <li class="nav-item">
                         <label for="select-idioma" class="form-label">Idioma</label>
                         <select name="select-idioma" id="select-idioma" aria-label="Selector de idioma">
                             <option value="es" lang="es" selected>Español</option>
                             <option value="en" lang="en">English</option>
                         </select>
                     </li>
+                    -->
                 </ul>
             </div>
         </div>
@@ -140,10 +148,21 @@
 
                 <!-- Fecha de reserva -->
                 <div class="mb-3">
-                <label for="fecha-reserva" class="form-label">Fecha de reserva</label>
+                <label for="fecha-reserva-inicio" class="form-label">Fecha de reserva(inicio)</label>
                 <input type="datetime-local"
-                        id="fecha-reserva"
-                        name="fecha-reserva"
+                        id="fecha-reserva-inicio"
+                        name="fecha-reserva-inicio"
+                        class="form-control"
+                        required>
+                <span class="error" id="error-fecha" aria-live="polite"></span>
+                </div>
+
+                <!-- Fecha de reserva -->
+                <div class="mb-3">
+                <label for="fecha-reserva-fin" class="form-label">Fecha de reserva(fin)</label>
+                <input type="datetime-local"
+                        id="fecha-reserva-fin"
+                        name="fecha-reserva-fin"
                         class="form-control"
                         required>
                 <span class="error" id="error-fecha" aria-live="polite"></span>
@@ -163,20 +182,6 @@
                 <div class="mb-3">
                 <label for="vehiculo-matricula" class="form-label">Matrícula (opcional)</label>
                 <input id="vehiculo-matricula" name="vehiculo-matricula" class="form-control" placeholder="1234-ABC">
-                </div>
-
-
-                <!-- Duración de la reserva -->
-                <div class="mb-3">
-                <label for="duracion" class="form-label">Duración de la reserva (horas)</label>
-                <input type="number"
-                        id="duracion"
-                        name="duracion"
-                        class="form-control"
-                        min="1"
-                        step="1"
-                        required>
-                <span class="error" id="error-duracion" aria-live="polite"></span>
                 </div>
 
                 <!-- Barra de progreso -->
@@ -213,10 +218,68 @@
         </p>
         </div>
     </footer>
+
+    <!--Link para poder utilizar JS con bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="formulario.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/reservas-ui.js"></script>
+    <script src="js/accesibility-ui.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/hero-search.js"></script>
+
+
+    <!-- Modal Registro (fuera de offcanvas, al final del body) -->
+    <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="form-register" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRegisterLabel">Crear cuenta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                        <div id="register-server-error" class="alert alert-danger d-none" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label for="reg-nombre" class="form-label">Nombre completo</label>
+                            <input id="reg-nombre" class="form-control" required minlength="3">
+                            <div id="err-nombre" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-correo" class="form-label">Correo (@ucm.es)</label>
+                            <input id="reg-correo" type="email" class="form-control" required>
+                            <div id="err-correo" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-contrasena" class="form-label">Contraseña</label>
+                            <input id="reg-contrasena" type="password" class="form-control" required minlength="8">
+                            <div id="err-contrasena" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-confirm" class="form-label">Confirmar contraseña</label>
+                            <input id="reg-confirm" type="password" class="form-control" required>
+                            <div id="err-confirm" class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reg-telefono" class="form-label">Teléfono (opcional)</label>
+                            <input id="reg-telefono" type="tel" class="form-control" pattern="[0-9]{9}">
+                            <div id="err-telefono" class="invalid-feedback"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-register-cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="btn-register-submit" type="submit" class="btn btn-primary">Crear cuenta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
-<script src="formulario.js"></script>
-<script src="js/api.js"></script>
-<script src="js/reservas-ui.js"></script>
-<script src="js/accesibility-ui.js"></script>
-<script src="js/auth-ui.js"></script>
 </html>

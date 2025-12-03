@@ -13,7 +13,25 @@ router.get('/concesionarios', async(req, res) => {
 })
 
 router.get('/', async(req, res) =>{
-    const{autonomia_min, plazas, color, concesionario} = req.query; 
+    const{autonomia_min, plazas, color, concesionario, matricula} = req.query; 
+    
+    if(matricula){
+        try{
+            const [rows] = await pool.query(
+                `SELECT v.*, c.nombre AS concesionario_nombre
+                 FROM vehiculos v
+                 LEFT JOIN concesionarios c ON v.id_concesionario = c.id_concesionario
+                 WHERE v.matricula = ?`,
+                [matricula.trim()]
+            );
+
+            return res.json({ok:true, vehiculos: rows});
+        }catch(err){
+            console.error('Error buscando vehículo por matrícula', err);
+            return res.status(500).json({ok:false, error: 'Error buscando vehículo por matrícula' });
+        }
+    }
+
     // obtenemos todos los vehiculos con su concesionario asignado
     let sql = `SELECT v.*,                                 
     c.nombre AS concesionario_nombre 
