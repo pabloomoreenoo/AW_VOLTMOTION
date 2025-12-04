@@ -1,0 +1,38 @@
+[
+  {
+    "nombre": "Electro Movilidad Central",
+    "ciudad": "Madrid",
+    "direccion": "Paseo de la Castellana, 100",
+    "telefono": "910 555 123"
+  },
+  {
+    "nombre": "Concesionario Futuro E-Car",
+    "ciudad": "Barcelona",
+    "direccion": "Avenida Diagonal, 250",
+    "telefono": "930 555 456"
+  },
+  {
+    "nombre": "Ecomotor Valencia",
+    "ciudad": "Valencia",
+    "direccion": "Gran Vía, 5",
+    "telefono": "960 555 789"
+  },
+  {
+    "nombre": "Norte Eléctrico Automoción",
+    "ciudad": "Bilbao",
+    "direccion": "Calle Euskalduna, 15",
+    "telefono": "940 555 101"
+  },
+  {
+    "nombre": "Sur EV Point",
+    "ciudad": "Sevilla",
+    "direccion": "Avenida de la Constitución, 30",
+    "telefono": "950 555 202"
+  },
+  {
+    "nombre": "VientoRomareda",
+    "ciudad": "Zaragoza",
+    "direccion": "Calle del Pilar, 21",
+    "telefono": "920 655 183"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "nombre": "Ana Martínez Gómez",
+    "correo": "ana.martinez@ucm.es",
+    "contrasena": "$2y$10$J9x5vZk1f9j5z8K9pQ2X9u8v7b6n5m4k3j2h1g0f9e8d7c6b5a4Z3",
+    "rol": "admin",
+    "telefono": "600112233",
+    "id_concesionario": 1,
+    "preferencias_accesibilidad": {
+      "tema": "oscuro",
+      "tamano_fuente": "grande",
+      "alto_contraste": true
+    }
+  },
+  {
+    "nombre": "Carlos Ruiz Pérez",
+    "correo": "carlos.ruiz@ucm.es",
+    "contrasena": "$2y$10$8F4d3s2a1Z9x8c7v6b5n4m3lk2j1h0g9f8e7d6c5b4a3Z2Y1X9W8V",
+    "rol": "empleado",
+    "telefono": "612345678",
+    "id_concesionario": 1,
+    "preferencias_accesibilidad": null
+  },
+  {
+    "nombre": "Laura Fernández Díaz",
+    "correo": "laura.fernandez@ucm.es",
+    "contrasena": "$2y$10$k5l4j3h2g1f0e9d8c7b6n5m4lk3j2h1g0f9e8d7c6b5a4Z3Y2X1W9V",
+    "rol": "empleado",
+    "telefono": "645987321",
+    "id_concesionario": 2,
+    "preferencias_accesibilidad": {
+      "tema": "claro",
+      "tamano_fuente": "normal",
+      "lectura_voz": true
+    }
+  },
+  {
+    "nombre": "Marcos Sánchez López",
+    "correo": "marcos.sanchez@ucm.es",
+    "contrasena": "$2y$10$T6y5u4i3o2p1a0s9d8f7g6h5j4k3l2z1x0c9v8b7n6m5l4k3j2h1Y",
+    "rol": "admin",
+    "telefono": "699887766",
+    "id_concesionario": 3,
+    "preferencias_accesibilidad": null
+  },
+  {
+    "nombre": "Sofía Herrera Vega",
+    "correo": "sofia.herrera@concesionario.com",
+    "contrasena": "$2y$10$R9e8d7c6b5a4Z3Y2X1W0V9U8I7Y6T5R4E3W2Q1P0O9I8U7Y6T5R4E",
+    "rol": "empleado",
+    "telefono": "611223344",
+    "id_concesionario": 2,
+    "preferencias_accesibilidad": {
+      "tema": "oscuro",
+      "tamano_fuente": "grande"
+    }
+  }
+]

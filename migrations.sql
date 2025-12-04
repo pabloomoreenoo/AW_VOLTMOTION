@@ -52,14 +52,66 @@ CREATE TABLE IF NOT EXISTS reservas (
 );
 
 
+INSERT INTO usuarios (
+    nombre,
+    correo,
+    contrasena,
+    rol,
+    telefono,
+    id_concesionario,
+    preferencias_accesibilidad
+) VALUES 
+-- 1. Administrador principal
+('Ana Martínez Gómez', 
+ 'ana.martinez@ucm.es', 
+ '$2y$10$J9x5vZk1f9j5z8K9pQ2X9u8v7b6n5m4k3j2h1g0f9e8d7c6b5a4Z3', -- contraseña: Admin2025!
+ 'admin',
+ '600112233',
+ 1,
+ '{"tema":"oscuro","tamano_fuente":"grande","alto_contraste":true}'),
+
+-- 2. Empleado ventas Madrid
+('Carlos Ruiz Pérez', 
+ 'carlos.ruiz@ucm.es', 
+ '$2y$10$8F4d3s2a1Z9x8c7v6b5n4m3lk2j1h0g9f8e7d6c5b4a3Z2Y1X9W8V', -- contraseña: Ventas2025
+ 'empleado',
+ '612345678',
+ 1,
+ NULL),
+
+-- 3. Empleado taller Barcelona
+('Laura Fernández Díaz', 
+ 'laura.fernandez@ucm.es', 
+ '$2y$10$k5l4j3h2g1f0e9d8c7b6n5m4lk3j2h1g0f9e8d7c6b5a4Z3Y2X1W9V', -- contraseña: Taller123
+ 'empleado',
+ '645987321',
+ 2,
+ '{"tema":"claro","tamano_fuente":"normal","lectura_voz":true}'),
+
+-- 4. Administrador secundario
+('Marcos Sánchez López', 
+ 'marcos.sanchez@ucm.es', 
+ '$2y$10$T6y5u4i3o2p1a0s9d8f7g6h5j4k3l2z1x0c9v8b7n6m5l4k3j2h1Y', -- contraseña: AdminSec2025
+ 'admin',
+ '699887766',
+ 3,
+ NULL),
+
+-- 5. Empleado atención al cliente Valencia
+('Sofía Herrera Vega', 
+ 'sofia.herrera@concesionario.com', 
+ '$2y$10$R9e8d7c6b5a4Z3Y2X1W0V9U8I7Y6T5R4E3W2Q1P0O9I8U7Y6T5R4E', -- contraseña: Cliente2025*
+ 'empleado',
+ '611223344',
+ 2,
+ '{"tema":"oscuro","tamano_fuente":"grande"}');
+
 INSERT INTO concesionarios (nombre, ciudad, direccion, telefono) VALUES
 ('Electro Movilidad Central', 'Madrid', 'Paseo de la Castellana, 100', '910 555 123'),
 ('Concesionario Futuro E-Car', 'Barcelona', 'Avenida Diagonal, 250', '930 555 456'),
 ('Ecomotor Valencia', 'Valencia', 'Gran Vía, 5', '960 555 789'),
 ('Norte Eléctrico Automoción', 'Bilbao', 'Calle Euskalduna, 15', '940 555 101'),
 ('Sur EV Point', 'Sevilla', 'Avenida de la Constitución, 30', '950 555 202');
-
-INSERT INTO concesionarios (nombre, ciudad, direccion, telefono) VALUES
 ('VientoRomareda', 'Zaragoza', 'Calle del Pilar, 21', '920 655 183');
 
 INSERT INTO vehiculos (matricula, marca, modelo, ano_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario) VALUES

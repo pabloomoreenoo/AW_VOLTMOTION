@@ -5,6 +5,8 @@ const bodyParser = require('body-parser'); // importamos body-parser para maneja
 const path = require('path');        // importamos el módulo path para manejar rutas de archivos
 const session = require('express-session'); // importamos express-session para manejar sesiones de usuario
 
+const {cargarDatosIniciales} = require('./uploads/cargarJSON'); // importamos la función para cargar datos iniciales
+
 const authRoutes = require('./routes/authRoutes'); 
 const vehicleRoutes = require('./routes/vehiclesRoutes'); 
 const reservasRoutes = require('./routes/reservasRoutes'); 
@@ -77,6 +79,10 @@ app.get('*', (req, res, next) => {
 
 app.use(handleErrors); 
 
-app.listen(PORT, () => {                     // el servidor comienza a escuchar en el puerto definido
+
+cargarDatosIniciales().then((resultado) => {
+    app.listen(PORT, () => {                     // el servidor comienza a escuchar en el puerto definido
     console.log(`Servidor escuchando en el puerto ${PORT}`); // mostramos un mensaje en la consola indicando que el servidor está activo
+  });
 });
+
