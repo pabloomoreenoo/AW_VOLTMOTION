@@ -198,8 +198,8 @@ const passwordInput = document.getElementById("password");
 const errorPassword = document.getElementById("error-password");
 
 if (passwordInput && errorPassword) {
-  const regexPassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
-  // Mínimo 8 caracteres, 1 mayúscula, 1 número, 1 carácter especial
+  const regexPassword = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+  // Mínimo 6 caracteres, 1 mayúscula, 1 número
 
   passwordInput.addEventListener("input", function () {
     const valor = passwordInput.value;
@@ -208,7 +208,7 @@ if (passwordInput && errorPassword) {
       passwordInput.classList.remove("is-valid");
       passwordInput.classList.add("is-invalid");
       errorPassword.textContent =
-        "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.";
+        "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.";
     } else {
       passwordInput.classList.remove("is-invalid");
       passwordInput.classList.add("is-valid");

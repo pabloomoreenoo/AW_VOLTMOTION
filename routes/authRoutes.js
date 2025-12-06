@@ -55,10 +55,10 @@ router.get('/whoami', (req, res) => {
         return res.json({ ok: false, user: null });
     }
 
-    const { id_usuario, nombre, correo, rol } = req.session.user;
+    const { id_usuario, nombre, correo, rol, imagen } = req.session.user;
     res.json({
         ok: true,
-        user: { id_usuario, nombre, correo, rol }
+        user: { id_usuario, nombre, correo, rol, imagen }
     });
 });
 

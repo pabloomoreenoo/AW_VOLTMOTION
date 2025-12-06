@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     }
 
     function populateColors(colors){
+        if(!selectColor)return; 
         selectColor.innerHTML = '<option value="">— Cualquiera —</option>';
         const unique = Array.from(new Set(colors.map(c => (c || '').trim()).filter(Boolean)));
         unique.forEach(col => {
@@ -64,51 +65,9 @@ document.addEventListener('DOMContentLoaded', () =>{
         });
     }
 
-    function openAccountOffcanvas(){
-        const offEl = document.getElementById('offcanvasRight');
-        if(!offEl) return;
-
-        const inst = bootstrap.Offcanvas.getInstance(offEl) || new bootstrap.Offcanvas(offEl);
-        inst.show();
-    }
-
-    function onReserve(vehiculo){
-        // window.location.href = `/reservas.html?id=${vehiculo.id_vehiculo}`;
-        alert(`Reservar: ${vehiculo.marca} ${vehiculo.modelo} (${vehiculo.matricula}) - implementar acción real`);
-    }
-
-    async function fetchVehiculos(filters = {concesionario: 'all'}) {
-        currentFilters = Object.assign({}, filters);
-        try {
-            const params = new URLSearchParams(); 
-            if (filters.concesionario && filters.concesionario !== 'all') params.set('concesionario', filters.concesionario);
-            if (filters.autonomia_min) params.set('autonomia_min', String(filters.autonomia_min));
-            if (filters.plazas) params.set('plazas', String(filters.plazas));
-            if (filters.color) params.set('color', filters.color);
-
-            const url = '/api/vehicles'+ (params.toString() ? '?' + params.toString() : ''); 
-            const res = await fetch(url, {
-                cache: 'no-store',
-                headers: { 'Accept': 'application/json' },
-            });
-            if (!res.ok) throw new Error('Error al obtener vehículos');
-            const data = await res.json();
-            if(data && data.ok){
-                renderVehiculos(data.vehiculos || []);
-                const colors = (data.vehiculos || []).map(v => v.color).filter(Boolean);
-                if (colors.length && selectColor.options.length <= 1) populateColors(colors);
-            }else{
-                renderVehiculos([]); 
-            }
-        } catch (err) {
-            console.error(err);
-            grid.innerHTML = `<div class="col-12 text-danger">Error al cargar vehículos.</div>`;
-            emptyMsg.hidden = true;
-        }
-    }
-
     function renderVehiculos(list){
-        grid.innerHTML=''; 
+        if(!grid)return; 
+        grid.innerHTML = ''; 
         if(!list || list.length === 0){
             emptyMsg.hidden = false; 
             return; 
@@ -167,19 +126,11 @@ document.addEventListener('DOMContentLoaded', () =>{
                 btnGroup.appendChild(btnDisabled);
             }else{
                 if(isLogged){
-                    const btn = document.createElement('button');
-                    btn.className = 'btn btn-primary';
-                    btn.type = 'button';
-                    btn.textContent = 'Reservar';
-                    btn.addEventListener('click', () => onReserve(v));
-                    btnGroup.appendChild(btn);
-                }else{
-                    const btnLogin = document.createElement('button');
-                    btnLogin.className = 'btn btn-outline-primary';
-                    btnLogin.type = 'button';
-                    btnLogin.textContent = 'Iniciar sesión para reservar';
-                    btnLogin.addEventListener('click', () => openAccountOffcanvas());
-                    btnGroup.appendChild(btnLogin);
+                    const a = document.createElement('a');
+                    a.className = 'btn btn-primary';
+                    a.href = `/reservas?id=${encodeURIComponent(v.id_vehiculo || v.id || '')}`;
+                    a.textContent = 'Reservar';
+                    btnGroup.appendChild(a);
                 }
             }
 
@@ -195,7 +146,40 @@ document.addEventListener('DOMContentLoaded', () =>{
         }); 
     }
 
-    btnFilter.addEventListener('click', () => {
+    async function fetchVehiculos(filters = {concesionario: 'all'}) {
+        try {
+            const q = {}; 
+            if (filters.concesionario && filters.concesionario !== 'all') q.concesionario = filters.concesionario;
+            if (filters.autonomia_min) q.autonomia_min = filters.autonomia_min;
+            if (filters.plazas) q.plazas = filters.plazas;
+            if (filters.color) q.color = filters.color;
+            
+            let data; 
+            if(window.api && typeof window.api.getVehicles === 'function'){
+                data = await window.api.getVehicles(q);
+            }else{
+                const qs = new URLSearchParams(q).toString();
+                const res = await fetch('/api/vehicles' + (qs ? `?${qs}` : ''), { credentials: 'same-origin' });
+                if(!res.ok) throw new Error('Error al obtener vehículos');
+                data = await res.json();
+            }
+
+            const vehiculos = (data && data.ok && Array.isArray(data.vehiculos)) ? data.vehiculos : (Array.isArray(data) ? data : (data.vehiculos || []));
+            renderVehiculos(vehiculos);
+
+            const colors = vehiculos.map(v => v.color).filter(Boolean);
+            if(colors.length && selectColor.options.length <= 1){
+                populateColors(colors);
+            }
+        } catch (err) {
+            console.error(err);
+            grid.innerHTML = `<div class="col-12 text-danger">Error al cargar vehículos.</div>`;
+            emptyMsg.hidden = true;
+        }
+    }
+
+    
+    if(btnFilter) btnFilter.addEventListener('click', () => {
         const filters = {
         concesionario: selectCont.value,
         autonomia_min: inputAutonomia.value ? Number(inputAutonomia.value) : undefined,
@@ -220,15 +204,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         }
     }); 
 
-    document.addEventListener('app:user:login', async(e) => {
-        isLogged = true;
-        await fetchVehiculos(currentFilters);
-    });
-
-    document.addEventListener('app:user:logout', async(e) => {
-        isLogged = false;
-        await fetchVehiculos(currentFilters);
-    });
+   
 
     (async() => {
         await detectAuth();

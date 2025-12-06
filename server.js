@@ -11,7 +11,9 @@ const authRoutes = require('./routes/authRoutes');
 const vehicleRoutes = require('./routes/vehiclesRoutes'); 
 const reservasRoutes = require('./routes/reservasRoutes'); 
 const adminRoutes = require('./routes/adminRoutes'); 
-const accessibilityRoutes = require('./routes/accessibilityRoutes'); 
+const accessibilityRoutes = require('./routes/accessibilityRoutes');
+const pagesRoutes = require('./routes/pagesRoutes'); 
+const initialLoadRoutes = require('./routes/initialLoadRoutes');
 
 const handleErrors = require('./middlewares/errorHandler'); // importamos el middleware para manejo de errores
 
@@ -59,23 +61,28 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+// CONFIGURAR VIEWS (EJS)
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+// Exponer user a las vistas (si existe sesión)
+app.use((req, res, next) => {
+  res.locals.user = req.session && req.session.user ? req.session.user : null;
+  next();
+});
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/reservas', reservasRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/accessibility', accessibilityRoutes);
+app.use('/api/initialLoad', initialLoadRoutes);
+
+app.use('/', pagesRoutes);
 
 app.use(express.static(path.join(__dirname, 'public'))); // servimos archivos estáticos desde la carpeta 'public'
 
-app.get('*', (req, res, next) => {  
-    if (req.path.startsWith('/api/')) return next();
-    if(req.accepts('html')) {               // si la solicitud acepta HTML
-        res.sendFile(path.join(__dirname, 'public', 'index.html')); // enviamos el archivo index.html
-    } else {
-        next(); // pasamos al siguiente middleware
-    }
-});
 
 app.use(handleErrors); 
 

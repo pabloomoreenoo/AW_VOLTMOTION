@@ -72,6 +72,7 @@ router.get('/', async(req, res) =>{
     }
 })
 
+
 router.get('/vehicles/colors', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT DISTINCT color FROM vehiculos WHERE color IS NOT NULL AND color <> ""');
@@ -82,5 +83,38 @@ router.get('/vehicles/colors', async (req, res) => {
     res.status(500).json({ ok: false, error: 'Error al obtener colores' });
   }
 })
+
+router.post('/', async(req, res) =>{
+    const { matricula, marca, modelo, ano_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario } = req.body;
+    try {
+        const [result] = await pool.query(
+        `INSERT INTO vehiculos (matricula, marca, modelo, ano_matriculacion, numero_plazas, autonomia_km, color, imagen, estado, id_concesionario)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [matricula, marca, modelo, ano_matriculacion || null, numero_plazas || null, autonomia_km || null, color || null, imagen || null, estado || 'disponible', id_concesionario || null]
+        );
+        res.json({ ok: true, id_vehiculo: result.insertId });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error creando vehículo' });
+    }
+}); 
+
+router.patch('/:id', async(req, res) =>{
+    const id = Number(req.params.id);
+    const fields = [];
+    const values = [];
+    if (req.body.estado !== undefined) { fields.push('estado = ?'); values.push(req.body.estado); }
+    if (req.body.imagen !== undefined) { fields.push('imagen = ?'); values.push(req.body.imagen); }
+    // ... añade más si quieres
+    if (!fields.length) return res.status(400).json({ error: 'Nada que actualizar' });
+    try {
+        values.push(id);
+        await pool.query(`UPDATE vehiculos SET ${fields.join(', ')} WHERE id_vehiculo = ?`, values);
+        res.json({ ok: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error actualizando vehículo' });
+    }
+}); 
 
 module.exports = router;

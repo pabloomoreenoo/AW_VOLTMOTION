@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded',  () => {
 
   const fields = [inputNombre, inputEmail, inputInicio, inputFin]; 
 
+  let detectedVehicleId = null; 
+
   function isValidEmail(email){
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email.toLowerCase());
@@ -61,6 +63,34 @@ document.addEventListener('DOMContentLoaded',  () => {
     }catch(err){
       console.warn('Error buscando vehículo por matrícula', err);
       return null;
+    }
+  }
+
+  async function getVehicleById(id){
+    if(!id)return null; 
+    try{
+        let data = null; 
+        if(window.api && typeof window.api.getVehicleById === 'function'){
+            data = await window.api.getVehicleById(id); 
+        }else{
+            const res = await fetch('/api/vehicles', { cache: 'no-store', headers: {'Accept': 'application/json'}}); 
+            if(!res.ok) return null; 
+            data = await res.json(); 
+        }
+        const list = (data && data.ok && Array.isArray(data.vehiculos)) ? data.vehiculos : (Array.isArray(data) ? data : []);
+        const idKeys = ['id_vehiculo','idVehiculo','id'];
+        const found = list.find(v =>{
+            for(const k of idKeys){
+                if(v[k] !== undefined && Number(v[k]) === Number(id))return true; 
+            }
+
+            if(v.id_vehiculo !== undefined && Number(v.id_vehiculo) === Number(id)) return true;
+            return false; 
+        }); 
+        return found || null; 
+    }catch(err){
+        console.warn('Error al obtener vehiculo por ID', err); 
+        return null; 
     }
   }
 
@@ -160,9 +190,9 @@ document.addEventListener('DOMContentLoaded',  () => {
     }
 
     try{
-      let id_vehiculo = null; 
+      let id_vehiculo = detectedVehicleId || null;  
 
-      if(matricula){
+      if(!id_vehiculo && matricula){
         const vehicle = await findVehicleByMatricula(matricula);
         if(!vehicle){
           const ok = confirm('No se ha encontrado el vehículo con matrícula ' + matricula + '. ¿Quieres registrarte o iniciar sesión para continuar?');
@@ -207,8 +237,24 @@ document.addEventListener('DOMContentLoaded',  () => {
         throw new Error(message);
       }
 
-      alert('Reserva creada con éxito. ID de reserva: ' + (body && body.id_reserva ? body.id_reserva : 'N/A'));
-      form.reset();
+      const idReserva = (body && body.id_reserva) ? body.id_reserva : null;
+
+      try {
+          const recent = {
+            id_reserva: idReserva,
+            id_vehiculo: id_vehiculo,
+            marca: inputMarca && inputMarca.value ? inputMarca.value : null,
+            modelo: inputModelo && inputModelo.value ? inputModelo.value : null,
+            matricula: inputMatricula && inputMatricula.value ? inputMatricula.value : null,
+            fecha_inicio: fecha_inicio,
+            fecha_fin: fecha_fin
+          };
+          sessionStorage.setItem('recentReservation', JSON.stringify(recent));
+      } catch (e) {
+          console.warn('No se pudo guardar recentReservation en sessionStorage', e);
+      }
+
+      window.location.href = '/user';
       updateProgress();
       
       
@@ -220,7 +266,7 @@ document.addEventListener('DOMContentLoaded',  () => {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Crear Reserva';
       }
-      location.reload();
+      window.location.href = '/user';
     }
   });
   }
@@ -228,17 +274,27 @@ document.addEventListener('DOMContentLoaded',  () => {
   (async function init(){
     try{
       const logged = await isUserLogged();
-      if(!logged){
-        showLoginRequiredMessage();
-      }else{
-        let user = null;
-        try{
-          const who = await window.api.whoami();
-          if(who && who.ok && who.user) user = who.user;
-        }catch(err){
-          console.warn('No se pudo obtener información del usuario', err);
+      const idFromQuery = getVehicleIdFromQuery(); 
+      if(idFromQuery){
+        const vehicle = await getVehicleById(idFromQuery); 
+        if(vehicle){
+            detectedVehicleId = vehicle.id_vehiculo || vehicle.idVehiculo || vehicle.id || idFromQuery; 
+            if(inputMatricula && vehicle.matricula) inputMatricula.value = vehicle.matricula || ''; 
+            if(inputMarca && vehicle.marca) inputMarca.value = vehicle.marca || ''; 
+            if(inputModelo && vehicle.modelo) inputModelo.value = vehicle.modelo || ''; 
         }
-        showFormAndPrefill(user);
+      }
+      if(!logged){
+        showLoginRequiredMessage(); 
+      }else{
+        let user = null; 
+        try{
+            const who = await window.api.whoami(); 
+            if(who && who.ok && who.user) user = who.user; 
+        }catch(err){
+            console.warn('No se pudo obtener informacion del usuario', err); 
+        }
+        showFormAndPrefill(user); 
       }
     }catch(err){
       console.error('Error inicializando la página de reservas', err);

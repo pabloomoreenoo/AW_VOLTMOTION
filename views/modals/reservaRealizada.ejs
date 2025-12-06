@@ -1,0 +1,61 @@
+<div class="modal fade" id="modalReservaRealizada" tabindex="-1" aria-labelledby="modalReservaRealizadaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalReservaRealizadaLabel">Reserva creada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tu reserva se ha realizado con éxito.</p>
+
+        <ul class="list-unstyled mb-0">
+          <li><strong>ID reserva:</strong> <span id="modal-reserva-id">—</span></li>
+          <li><strong>Vehículo:</strong> <span id="modal-reserva-vehiculo">—</span></li>
+          <li><strong>Matrícula:</strong> <span id="modal-reserva-matricula">—</span></li>
+          <li><strong>Desde:</strong> <span id="modal-reserva-inicio">—</span></li>
+          <li><strong>Hasta:</strong> <span id="modal-reserva-fin">—</span></li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <a href="/miActividad" class="btn btn-outline-primary">Ver mis reservas</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const raw = sessionStorage.getItem('recentReservation');
+      if (!raw) return;
+      const r = JSON.parse(raw);
+
+      // poblar modal
+      const elId = document.getElementById('modal-reserva-id');
+      const elVeh = document.getElementById('modal-reserva-vehiculo');
+      const elMat = document.getElementById('modal-reserva-matricula');
+      const elIni = document.getElementById('modal-reserva-inicio');
+      const elFin = document.getElementById('modal-reserva-fin');
+
+      if (elId) elId.textContent = r.id_reserva || 'N/A';
+      if (elVeh) elVeh.textContent = ((r.marca || '') + ' ' + (r.modelo || '')).trim() || '—';
+      if (elMat) elMat.textContent = r.matricula || '—';
+      if (elIni) elIni.textContent = r.fecha_inicio ? new Date(r.fecha_inicio).toLocaleString() : '—';
+      if (elFin) elFin.textContent = r.fecha_fin ? new Date(r.fecha_fin).toLocaleString() : '—';
+
+      // mostrar modal
+      const modalEl = document.getElementById('modalReservaRealizada');
+      if (modalEl && typeof bootstrap !== 'undefined') {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+      }
+
+      // limpiar la key para que no vuelva a mostrarse
+      sessionStorage.removeItem('recentReservation');
+    } catch (err) {
+      console.warn('Error mostrando modal de reserva', err);
+      try { sessionStorage.removeItem('recentReservation'); } catch(e){}
+    }
+  });
+</script>

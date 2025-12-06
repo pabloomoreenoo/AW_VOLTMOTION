@@ -1,0 +1,66 @@
+<!-- modal que utilizamos para añadir vehiculo-->
+        <div class="modal fade" id="modalAddVehicle" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <form id="form-add-vehicle" class="modal-content" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title">Añadir vehículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Matrícula</label>
+                        <input name="matricula" id="add-matricula" class="form-control" required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Marca</label>
+                        <input name="marca" id="add-marca" class="form-control" required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Modelo</label>
+                        <input name="modelo" id="add-modelo" class="form-control" required>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label">Año matriculación</label>
+                        <input name="ano" id="add-ano" type="number" min="1900" max="2100" class="form-control">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label">Plazas</label>
+                        <input name="plazas" id="add-plazas" type="number" min="1" class="form-control">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label">Autonomía (km)</label>
+                        <input name="autonomia" id="add-autonomia" type="number" min="0" class="form-control">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label">Color</label>
+                        <input name="color" id="add-color" class="form-control">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Imagen (ruta relativa en /img/ o URL)</label>
+                        <input name="imagen" id="add-imagen" class="form-control" placeholder="/img/vehiculos/prueba1.png">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Concesionario</label>
+                        <select id="add-concesionario" name="id_concesionario" class="form-select"></select>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Estado</label>
+                        <select id="add-estado" name="estado" class="form-select">
+                        <option value="disponible">disponible</option>
+                        <option value="reservado">reservado</option>
+                        <option value="mantenimiento">mantenimiento</option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="btn-add-submit" type="submit" class="btn btn-primary">Crear vehículo</button>
+                </div>
+                </form>
+            </div>
+        </div>

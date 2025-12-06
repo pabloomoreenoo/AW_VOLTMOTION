@@ -1,4 +1,4 @@
-const api = {
+window.api = {
 
     async register(data){
         const res = await fetch('/api/auth/register', {
@@ -41,6 +41,8 @@ const api = {
         return res.ok ? res.json() : Promise.reject(await res.json());
     },
 
+    
+
     async createReserva(payload){
         const res = await fetch('/api/reservas', {
             method: 'POST',
@@ -51,16 +53,6 @@ const api = {
         return res.json(); 
     },
 
-    async uploadJSON(file){
-        const fd = new FormData(); 
-        fd.append('file', file);
-        const res = await fetch('/api/admin/cargar-json', {
-        method: 'POST',
-        credentials: 'same-origin',
-        body: fd
-        });
-        return res.json(); 
-    },
 
     async getPrefs() {
         const res = await fetch('/api/accessibility/prefs', { credentials: 'same-origin' });
@@ -78,4 +70,5 @@ const api = {
     }
 }; 
 
-window.api = api; 
+ 
+

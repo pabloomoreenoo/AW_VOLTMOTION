@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head') %>
+    <body>
+        
+
+        <%- include('partials/header') %>
+
+        <main class="container mt-4">
+            <h1 class="mb-4">Mis reservas</h1>
+
+            <section aria-labelledby="activas-title" class="mb-5">
+                <h2 id="activas-title" class="h5">Reservas activas</h2>
+                <div id="reservas-activas" class="list-group mb-3">
+                <!-- items rellenados por JS -->
+                </div>
+                <div id="activas-empty" class="text-muted" hidden>No tienes reservas activas.</div>
+            </section>
+
+            <hr>
+
+            <section aria-labelledby="cerradas-title" class="mb-5">
+                <h2 id="cerradas-title" class="h5">Reservas finalizadas / canceladas</h2>
+                <div id="reservas-terminadas" class="list-group">
+                <!-- items rellenados por JS -->
+                </div>
+                <div id="terminadas-empty" class="text-muted" hidden>No hay reservas finalizadas o canceladas.</div>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+
+        <!-- SCRIPTS -->
+        <script src="/js/api.js"></script>
+        <script src="/js/miActividad-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+</html>

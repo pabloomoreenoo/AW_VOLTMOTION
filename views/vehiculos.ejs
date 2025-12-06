@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head') %>
+    <body>
+        
+        <%- include('partials/header') %>
+
+        <main>
+            <h1 class="mb-3 mt-3 text-center">Vehículos disponibles:</h1>
+
+            <section aria-labelledby="filtro-title" class="mb-4">
+                <h2 id="filtro-title" class="h5 visually-hidden">Filtro de concesionarios</h2>
+
+                <div class="row g-2 align-items-center ms-3">
+                    <div class="col-12 col-md-3">
+                        <label for="select-concesionario" class="form-label">Concesionario</label>
+                        <select id="select-concesionario" class="form-select" aria-label="Seleccionar concesionario">
+                            <option value="all">— Todos los concesionarios —</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <label for="input-autonomia" class="form-label">Autonomía mínima (km)</label>
+                        <input id="input-autonomia" type="number" min="0" step="1" class="form-control" placeholder="e.g. 200" aria-label="Autonomía mínima">
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <label for="input-plazas" class="form-label">Plazas mínimas</label>
+                        <input id="input-plazas" type="number" min="1" step="1" class="form-control" placeholder="e.g. 4" aria-label="Plazas mínimas">
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label for="select-color" class="form-label">Color</label>
+                        <select id="select-color" class="form-select" aria-label="Seleccionar color">
+                            <option value="">— Cualquiera —</option>
+                            <!--  -->
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-2 d-grid">
+                        <button id="btn-filter" class="btn btn-primary">Aplicar</button>
+                        <button id="btn-reset-filters" class="btn btn-outline-secondary mt-2">Borrar filtros</button>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-live="polite" id="vehiculos-container">
+                <div id="vehiculos-grid" class="row gy-4"></div>
+                <div id="vehiculos-empty" class="text-muted mt-4" hidden>No se han encontrado vehículos.</div>
+            </section>
+            
+        </main>
+
+
+
+
+        <%- include('partials/footer') %>
+
+        <!-- SCRIPTS -->
+        <script src="/js/api.js"></script>
+        <script src="/js/vehiculos-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+</html>

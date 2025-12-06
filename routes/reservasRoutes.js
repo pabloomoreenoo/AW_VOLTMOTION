@@ -48,14 +48,117 @@ router.get('/mias', ensureAuthenticated, async(req, res) =>{
     if(!id_usuario) return res.status(401).json({error: 'No autorizado'});
     try{
         const [rows] = await pool.query(
-      `SELECT r.*, v.matricula, v.marca, v.modelo FROM reservas r JOIN vehiculos v ON r.id_vehiculo = v.id_vehiculo
-       WHERE r.id_usuario = ? ORDER BY r.fecha_inicio DESC`,
+      `SELECT r.id_reserva, r.id_usuario, r.id_vehiculo, r.fecha_inicio, r.fecha_fin, r.estado,
+              v.matricula, v.marca, v.modelo, v.imagen
+       FROM reservas r
+       LEFT JOIN vehiculos v ON r.id_vehiculo = v.id_vehiculo
+       WHERE r.id_usuario = ?
+       ORDER BY r.fecha_inicio DESC`,
       [id_usuario]
     );
-    res.json(rows);
+    res.json({ok:true, reservas: rows});
     }catch(err){
-        console.error(err); res.status(500).json({ error: 'Error listando reservas' });
+        console.error(err); 
+        res.status(500).json({ error: 'Error listando reservas' });
     }
-})
+}); 
+
+// ruta para cancelar una reserva
+router.post('/:id/cancel', ensureAuthenticated, async(req, res) =>{
+    const id_usuario = req.session && req.session.user && req.session.user.id; 
+    const idReserva = Number(req.params.id); 
+    if (!id_usuario) return res.status(401).json({ error: 'No autenticado' });
+    if (!idReserva) return res.status(400).json({ error: 'ID reserva inválido' });
+
+    const conn = await pool.getConnection(); 
+
+    try{
+        await conn.beginTransaction();
+
+        // comprobar que la reserva pertenece al usuario y está activa
+        const [rows] = await conn.query(
+        'SELECT * FROM reservas WHERE id_reserva = ? FOR UPDATE',
+        [idReserva]
+        );
+        if (!rows.length) {
+        await conn.rollback();
+        return res.status(404).json({ error: 'Reserva no encontrada' });
+        }
+
+        const reserva = rows[0];
+        if (reserva.id_usuario !== id_usuario) {
+        await conn.rollback();
+        return res.status(403).json({ error: 'No tienes permiso para cancelar esta reserva' });
+        }
+        if (reserva.estado !== 'activa') {
+        await conn.rollback();
+        return res.status(400).json({ error: 'Solo se pueden cancelar reservas activas' });
+        }
+
+        // marcar reserva como cancelada
+        await conn.query('UPDATE reservas SET estado = ? WHERE id_reserva = ?', ['cancelada', idReserva]);
+
+        // poner el vehículo a disponible
+        if (reserva.id_vehiculo) {
+        await conn.query('UPDATE vehiculos SET estado = ? WHERE id_vehiculo = ?', ['disponible', reserva.id_vehiculo]);
+        }
+
+        await conn.commit();
+        res.json({ ok: true, message: 'Reserva cancelada' });
+    }catch(err){
+        await conn.rollback(); 
+        console.error(err); 
+        res.status(500).json({ok: false, error: 'Error cancelando la reserva'}); 
+    }finally{
+        conn.release(); 
+    }
+}); 
+
+router.post('/:id/finish', ensureAuthenticated, async(req, res) =>{
+    const id_usuario = req.session && req.session.user && req.session.user.id; 
+    const idReserva = Number(req.params.id); 
+    if (!id_usuario) return res.status(401).json({ error: 'No autenticado' });
+    if (!idReserva) return res.status(400).json({ error: 'ID reserva inválido' });
+
+    const conn = await pool.getConnection(); 
+
+    try{
+        await conn.beginTransaction(); 
+
+        const [rows] = await conn.query(
+            'SELECT * FROM reservas WHERE id_reserva = ? FOR UPDATE',
+            [idReserva]
+        );
+        if (!rows.length) {
+            await conn.rollback();
+            return res.status(404).json({ error: 'Reserva no encontrada' });
+        }
+
+        const reserva = rows[0];
+        if (reserva.id_usuario !== id_usuario) {
+            await conn.rollback();
+            return res.status(403).json({ error: 'No tienes permiso para finalizar esta reserva' });
+        }
+        if (reserva.estado !== 'activa') {
+            await conn.rollback();
+            return res.status(400).json({ error: 'Solo se pueden finalizar reservas activas' });
+        }
+
+        await conn.query('UPDATE reservas SET estado = ? WHERE id_reserva = ?', ['finalizada', idReserva]);
+
+        if (reserva.id_vehiculo) {
+            await conn.query('UPDATE vehiculos SET estado = ? WHERE id_vehiculo = ?', ['disponible', reserva.id_vehiculo]);
+        }
+
+        await conn.commit();
+        res.json({ ok: true, message: 'Reserva finalizada' });
+    }catch(err){
+        await conn.rollback();
+        console.error('Error finalizando reserva', err);
+        res.status(500).json({ ok: false, error: 'Error finalizando la reserva' });
+    }finally{
+        conn.release(); 
+    }
+}); 
 
 module.exports = router;

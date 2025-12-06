@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const db = require('../db');
+const bcrypt = require('bcrypt');
 
 // funcion para cargar JSON a la base de datos
 async function cargarDatosIniciales() {
@@ -72,6 +73,9 @@ async function cargarDatosIniciales() {
         // 2. Cargar Usuarios (necesitan id_concesionario → ya existen los concesionarios)
         console.log('Cargando usuarios...');
         for (const u of usuarios) {
+            const rawPass = (u.contrasena && String(u.contrasena)) || null;
+
+            const hashed = await bcrypt.hash(rawPass, 10);
             await db.query(
                 `INSERT INTO usuarios 
                  (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad) 
@@ -79,7 +83,7 @@ async function cargarDatosIniciales() {
                 [
                     u.nombre,
                     u.correo,
-                    u.contrasena,
+                    hashed,
                     u.rol,
                     u.telefono || null,
                     u.id_concesionario || null,

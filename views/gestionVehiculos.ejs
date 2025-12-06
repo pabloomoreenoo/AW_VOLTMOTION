@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head') %>
+    <body>
+        
+
+        <%- include('partials/header') %>
+
+        <main class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h3">Gestión de vehículos</h1>
+                <div>
+                    <button id="btn-open-add" class="btn btn-success d-none">Añadir vehículo</button>
+                </div>
+            </div>
+
+            <section class="card mb-4 p-3">
+                <div class="row g-2 align-items-end">
+                <div class="col-12 col-md-3">
+                    <label for="filter-concesionario" class="form-label">Concesionario</label>
+                    <select id="filter-concesionario" class="form-select">
+                    <option value="all">— Todos —</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="filter-autonomia" class="form-label">Autonomía ≥ (km)</label>
+                    <input id="filter-autonomia" type="number" min="0" class="form-control" placeholder="200">
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="filter-plazas" class="form-label">Plazas ≥</label>
+                    <input id="filter-plazas" type="number" min="1" class="form-control" placeholder="4">
+                </div>
+                <div class="col-6 col-md-2">
+                    <label for="filter-color" class="form-label">Color</label>
+                    <select id="filter-color" class="form-select">
+                    <option value="">— Cualquiera —</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3 d-grid">
+                    <button id="btn-apply" class="btn btn-primary">Aplicar</button>
+                    <button id="btn-clear" class="btn btn-outline-secondary mt-2">Limpiar</button>
+                </div>
+                </div>
+            </section>
+
+            <section id="vehiculos-section" aria-live="polite">
+                <div id="vehiculos-grid" class="row gy-4"></div>
+                <div id="vehiculos-empty" class="text-muted mt-4" hidden>No hay vehículos.</div>
+            </section>
+        </main>
+
+        <%- include ('modals/crearVehiculo') %>
+
+        <%- include('partials/footer') %>
+
+        <!-- SCRIPTS -->
+        <script src="/js/api.js"></script>
+        <script src="/js/gestionVehiculos-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+</html>

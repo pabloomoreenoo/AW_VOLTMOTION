@@ -1,94 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practica final</title>
+  <%- include('partials/head') %>
 
-    <!-- ENLACE PARA USAR BOOTSTRAP-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
-    <link id="theme-style" rel="stylesheet" href="style.css"> <!--el id es importante para poder cambiar entre estilos-->
+  <body>
+    <%- include('partials/header') %>
 
-</head>
-<body>
-
-    <!-- ========================= ENCABEZADO / PORTADA ========================= -->
-    <header> 
-
-        <nav class="navbar navbar-expand-md navbar-light bg-light" aria-label="Navegación principal">
-            <div class="container-fluid">
-                <a class="navbar-brand ms-3" href="index.html">
-                    <img src="img/logo.jpg" alt="logo" width="60" height="60">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="vehiculos.html">Vehiculos</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="reservas.html">Reservas</a>
-                        </li>
-                        <li class="nav-item">  <!--data-bs-toogle: informa a Bootstrap que este link abre un offcanvas
-                                                hrfef: indica que offcanvas abre por id
-                                                role:importante para accesibilidad: el lector de pantalla entiende que, aunque parezca un enlace, se comporta como un botón
-                                                aria-controls: asocia control con el panel que gobierna -->
-                            <a id="nav-account"
-                            class="nav-link" 
-                            data-bs-toggle="offcanvas"     
-                            href="#offcanvasRight" 
-                            role="button" 
-                            aria-controls="offcanvasRight"
-                            aria-label="Abrir panel de cuenta">
-                            Cuenta
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" 
-                                data-bs-toggle="offcanvas"     
-                                href="#offcanvasSettings" 
-                                role="button" 
-                                aria-controls="offcanvasSettings"
-                                aria-label="Abrir panel de ajustes">
-                                Ajustes
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+   
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" role="dialog">
+            <div class="offcanvas-header"> <!--Cogido de bootstrap-->
+                <h5 id="offcanvasRightLabel">Accede a tu cuenta</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-        </nav>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" role="dialog">
-                <div class="offcanvas-header"> <!--Cogido de bootstrap-->
-                        <h5 id="offcanvasRightLabel">Accede a tu cuenta</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div id="offcanvas-account-body">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                            <span class="error" id="error-email" aria-live="polite"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password"
-                            name="password">
-                            <span class="error" id="error-password" aria-live="polite"></span>
-                        </div>
-                        <div class="signIn-buttons mt-4 d-grid gap-3">
-                                <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesion</button>
-                                <button class="btn btn-primary" type="button" id="openRegisterModal">Crear cuenta</button>
-                        </div>
+            <div class="offcanvas-body">
+                <div id="offcanvas-account-body">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        <span class="error" id="error-email" aria-live="polite"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password"
+                        name="password">
+                        <span class="error" id="error-password" aria-live="polite"></span>
+                    </div>
+                    <div class="signIn-buttons mt-4 d-grid gap-3">
+                        <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesion</button>
                     </div>
                 </div>
+            </div>          
         </div>
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettingsLabel" role="dialog">
@@ -110,73 +50,15 @@
                             Actividad 
                         </a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <label for="select-idioma" class="form-label">Idioma</label>
-                        <select name="select-idioma" id="select-idioma" aria-label="Selector de idioma">
-                            <option value="es" lang="es" selected>Español</option>
-                            <option value="en" lang="en">English</option>
-                        </select>
-                    </li>
-                    -->
                 </ul>
             </div>
         </div>
-   
-    </header>
-     
 
-    <!-- ========================= CONTENIDO PRINCIPAL ========================= -->
-     <main>   
-
-    <section class="hero" id="imagenFondo">  <!-- Duda aqui sobre el fieldset de la p3-->
+    <main>
+      <section class="hero" id="imagenFondo">  <!-- Duda aqui sobre el fieldset de la p3-->
         <h1 class="visually-hidden">Reserva tu coche electrico con VOLTMOTION</h1>
         <img src="img/tesla_coche.jpg" class="d-block w-100" alt="coche electrico en ciudad">
-
-        <div class="hero-forma">
-            <div class="container-fluid">
-                <form class="row g-3  align-items-end hero-forma bg-light bg-opacity-90 p-2 p-md-4 rounded shadow"
-                action="#"
-                method="get"
-                aria-label="formulario inicial ayuda-reserva">
-
-                <div class="col-12 col-lg-3 col-md-5">
-                    <label for="lugar-recogida" class="form-label">Lugar de recogida</label>
-                    <input type="text"
-                    id="lugar-recogida"
-                    name="lugar-recogida"
-                    class="form-control"
-                    placeholder="Ciudad, aeropuerto..."
-                    required>
-                </div>
-                <div class="col-12 col-lg-3 col-md-5">
-                    <label for="Lugar-devolucion" class="form-label">Lugar de devolución</label>
-                    <input type="text"
-                    id="Lugar-devolucion"
-                    name="Lugar-devolucion"
-                    class="form-control"
-                    placeholder="Ciudad, aeropuerto..."
-                    required>
-                </div>
-                <div class="col-12 col-lg-2 col-md-3">
-                    <label for="inicio-reserva" class="form-label">Inicio-reserva</label>
-                    <input type="datetime-local"
-                    id="inicio-reserva"
-                    name="inicio-reserva" required>
-                </div>
-                <div class="col-12 col-lg-2 col-md-3">
-                    <label for="inicio-reserva" class="form-label">Fin-reserva</label>
-                    <input type="datetime-local"
-                    id="fin-reserva"
-                    name="fin-reserva" required>
-                </div>
-                <div class="col-12 col-lg-2 col-md-2 d-grid ">
-                    <button type="submit" class="btn btn-primary mt-4">Buscar</button>
-                </div>
-            </form>
-            </div>
-        </div>
-    </section>
+        </section>
 
     <div class="container-fluid bg-light py-5 ms-3 text-center">
         <h2>Nuestros principales proovedores:</h2>
@@ -220,7 +102,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Valencia</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -230,7 +112,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Barcelona</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -240,7 +122,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Madrid</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -250,7 +132,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Zaragoza</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -260,7 +142,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Sevilla</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -270,7 +152,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Bilbao</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
                     </div>
                 </div>
             </div>
@@ -400,141 +282,13 @@
                 </div>
             </div>
         </div>
-
     </main>
 
+    <%- include('partials/footer') %>
 
-     <!-- ========================= PIE DE PÁGINA ========================= -->
-  <footer>
-    <div class="div text-center mt-5">
-         <p >
-      Plataforma académica de demostración. Todos los derechos reservados &copy; 2025.
-    </p>
-    </div>
-  </footer>
- 
-   <script>
-        const contrasteLink = document.getElementById('nav-contraste');
-        const themeStyle = document.getElementById('theme-style');
-
-        const THEME_LIGHT = 'style.css';
-        const THEME_DARK = 'style-contrast.css';
-
-        const savedTheme = localStorage.getItem('theme') || THEME_LIGHT; // tema guardado al cargar la pagina
-
-        if(savedTheme === 'contrast'){
-            themeStyle.href = THEME_DARK;
-            contrasteLink.setAttribute('aria-pressed', 'true');
-        } else {
-            themeStyle.href = THEME_LIGHT;
-            contrasteLink.setAttribute('aria-pressed', 'false');
-        }
-
-        contrasteLink.addEventListener('click', function(event){
-            event.preventDefault();
-
-            const isContrast = themeStyle.getAttribute('href') === THEME_DARK;
-
-            if(isContrast){
-                themeStyle.href = THEME_LIGHT;
-                contrasteLink.setAttribute('aria-pressed', 'false');
-                localStorage.setItem('theme', 'light');
-            } else {
-                themeStyle.href = THEME_DARK;
-                contrasteLink.setAttribute('aria-pressed', 'true');
-                localStorage.setItem('theme', 'contrast');
-            }
-        });
-
-        const htmlElement = document.documentElement;
-        const languageSelect = document.getElementById('select-idioma');
-
-        const savedLanguage = localStorage.getItem('language') || 'es';
-
-        if(savedLanguage){
-            htmlElement.lang = savedLanguage;
-            languageSelect.value = savedLanguage;
-        }else{
-            htmlElement.lang = 'es';
-            languageSelect.value = 'es';
-        }
-
-        languageSelect.addEventListener('change', function(){
-            const selectedLanguage = languageSelect.value;
-            htmlElement.lang = selectedLanguage;
-            localStorage.setItem('language', selectedLanguage);
-
-            console.log('Idioma cambiado a: ' + selectedLanguage);
-        });
-
-   </script>
-
-   <!-- scripts UI-->
-    
-   <script src="js/api.js"></script>
-   <script src="js/accesibility-ui.js"></script>
-   <script src="js/admin.js"></script>
-   <script src="js/hero-search.js"></script>
-   <script src="js/auth-ui.js"></script>
-   <script src="js/vehicles.js"></script>
-    
-   
-    <!--Link para poder utilizar JS con bootstrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-   <script src="formulario.js"></script> <!-- para las validaciones cuando hagamos el sing in/sign up-->
-   
-   <!-- Modal Registro (fuera de offcanvas, al final del body) -->
-    <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form id="form-register" class="needs-validation" novalidate>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalRegisterLabel">Crear cuenta</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body">
-                        <div id="register-server-error" class="alert alert-danger d-none" role="alert"></div>
-
-                        <div class="mb-3">
-                            <label for="reg-nombre" class="form-label">Nombre completo</label>
-                            <input id="reg-nombre" class="form-control" required minlength="3">
-                            <div id="err-nombre" class="invalid-feedback"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reg-correo" class="form-label">Correo (@ucm.es)</label>
-                            <input id="reg-correo" type="email" class="form-control" required>
-                            <div id="err-correo" class="invalid-feedback"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reg-contrasena" class="form-label">Contraseña</label>
-                            <input id="reg-contrasena" type="password" class="form-control" required minlength="8">
-                            <div id="err-contrasena" class="invalid-feedback"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reg-confirm" class="form-label">Confirmar contraseña</label>
-                            <input id="reg-confirm" type="password" class="form-control" required>
-                            <div id="err-confirm" class="invalid-feedback"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="reg-telefono" class="form-label">Teléfono (opcional)</label>
-                            <input id="reg-telefono" type="tel" class="form-control" pattern="[0-9]{9}">
-                            <div id="err-telefono" class="invalid-feedback"></div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btn-register-cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button id="btn-register-submit" type="submit" class="btn btn-primary">Crear cuenta</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-</body>
+    <!-- SCRIPTS -->
+    <script src="/js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
+

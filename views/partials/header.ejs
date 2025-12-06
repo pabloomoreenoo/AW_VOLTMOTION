@@ -1,0 +1,56 @@
+<header> 
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light" aria-label="Navegación principal">
+            <div class="container-fluid">
+                <a class="navbar-brand ms-3" href="/">
+                    <img src="img/logo.jpg" alt="logo" width="60" height="60">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        
+                        <li class="nav-item">  <!--data-bs-toogle: informa a Bootstrap que este link abre un offcanvas
+                                                hrfef: indica que offcanvas abre por id
+                                                role:importante para accesibilidad: el lector de pantalla entiende que, aunque parezca un enlace, se comporta como un botón
+                                                aria-controls: asocia control con el panel que gobierna -->
+                            <a id="nav-account"
+                            class="nav-link" 
+                            data-bs-toggle="offcanvas"     
+                            href="#offcanvasRight" 
+                            role="button" 
+                            aria-controls="offcanvasRight"
+                            aria-label="Abrir panel de cuenta">
+                            Cuenta
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                                data-bs-toggle="offcanvas"     
+                                href="#offcanvasSettings" 
+                                role="button" 
+                                aria-controls="offcanvasSettings"
+                                aria-label="Abrir panel de ajustes">
+                                Ajustes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        
+
+ <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src ="/js/formulario.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth-ui.js"></script>
+    
+    
+</header>
