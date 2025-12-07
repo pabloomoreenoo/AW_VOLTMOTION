@@ -14,6 +14,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const accessibilityRoutes = require('./routes/accessibilityRoutes');
 const pagesRoutes = require('./routes/pagesRoutes'); 
 const initialLoadRoutes = require('./routes/initialLoadRoutes');
+const statsRoutes = require('./routes/statsRoutes'); 
 
 const handleErrors = require('./middlewares/errorHandler'); // importamos el middleware para manejo de errores
 
@@ -78,6 +79,24 @@ app.use('/api/reservas', reservasRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/accessibility', accessibilityRoutes);
 app.use('/api/initialLoad', initialLoadRoutes);
+app.use('/api/stats', statsRoutes); 
+
+//para cargar prefs del usuario y ponerlo en res.locals.prefs
+app.use(async (req, res, next) => {
+  try {
+    if (req.session && req.session.user && req.session.user.id) {
+      const [rows] = await pool.query('SELECT preferencias_accesibilidad FROM usuarios WHERE id_usuario = ?', [req.session.user.id]);
+      const raw = rows && rows[0] ? rows[0].preferencias_accesibilidad : null;
+      try { res.locals.prefs = raw ? JSON.parse(raw) : null; } catch(e){ res.locals.prefs = null; }
+    } else {
+      res.locals.prefs = null;
+    }
+  } catch (err) {
+    res.locals.prefs = null;
+  }
+  next();
+});
+
 
 app.use('/', pagesRoutes);
 

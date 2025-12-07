@@ -1,17 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include('partials/head') %>
+    <style>
+        .chart-box {
+            width: 100%;
+            max-width: 600px;   
+            height: 280px;     
+            margin: 0 auto;     
+        }
+    </style>
+
     <body>
         
 
         <%- include('partials/header') %>
 
-        
+        <main class="container my-4">
+            <h1 class="mb-4">Estadísticas</h1>
+
+            <div class="row gy-4">
+                <!--
+                <div class="col-12 col-md-6">
+                    <div class="card p-3">
+                        <h5 class="card-title">Porcentaje de reservas canceladas</h5>
+                        <div class="display-6" id="cancel-pct">—%</div>
+                        <div class="chart-box">
+                            <canvas id="chartCancel" height="150"></canvas>
+                        </div>
+                        
+                    </div>
+                </div>
+                -->
+                
+
+                <div class="col-12 col-md-6">
+                <div class="card p-3">
+                    <h5 class="card-title">Top vehículos por reservas</h5>
+                    <div class="chart-box">
+                        <canvas id="chartVehicles" height="200"></canvas>
+                    </div>
+                    <ul id="topVehiclesList" class="list-group list-group-flush mt-2"></ul>
+                </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                <div class="card p-3">
+                    <h5 class="card-title">Top concesionarios por reservas</h5>
+                    <div class="chart-box">
+                        <canvas id="chartConces" height="200"></canvas>
+                    </div>
+                    
+                    <ul id="topConcesList" class="list-group list-group-flush mt-2"></ul>
+                </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                <div class="card p-3">
+                    <h5 class="card-title">Top usuarios por reservas</h5>
+                    <div class="chart-box">
+                        <canvas id="chartUsers" height="200"></canvas>
+                    </div>
+                    
+                    <ul id="topUsersList" class="list-group list-group-flush mt-2"></ul>
+                </div>
+                </div>
+            </div>
+        </main>
 
         <%- include('partials/footer') %>
 
         <!-- SCRIPTS -->
         <script src="/js/api.js"></script>
+        <script src="/js/estadisticas-ui.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         </body>
 </html>

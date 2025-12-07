@@ -60,14 +60,14 @@ window.api = {
     },
 
     async setPrefs(prefs){
-        const res = await fetch('/api/accesibility/prefs', {
+        const res = await fetch('/api/accessibility/prefs', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'same-origin',
             body: JSON.stringify(prefs)
-        }); 
-        return res.json(); 
-    }
+        });
+        return res.json();
+    },
 }; 
 
  
