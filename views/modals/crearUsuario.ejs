@@ -1,0 +1,49 @@
+<!-- Modal q se despliega cuando anadimos user -->
+<div class="modal fade" id="modalAddUser" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <form id="form-add-user" class="needs-validation" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title">Crear nuevo usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Nombre completo</label>
+            <input id="add-nombre" class="form-control" required />
+            <div class="invalid-feedback">El nombre es obligatorio.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Correo (debe ser @ucm.es)</label>
+            <input id="add-correo" type="email" class="form-control" required />
+            <div class="invalid-feedback">Introduce un correo válido (@ucm.es).</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input id="add-contrasena" type="password" class="form-control" required minlength="6" />
+            <div class="invalid-feedback">La contraseña es obligatoria (mín. 6 caracteres).</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Teléfono (opcional)</label>
+            <input id="add-telefono" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">ID Concesionario (opcional)</label>
+            <input id="add-id-concesionario" type="number" min="1" class="form-control" />
+            <div class="form-text">Si pertenece a un concesionario, coloca su id.</div>
+          </div>
+
+          <!-- el rol que se asigna al crear usuario es de empleao por defecto-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn-add-submit" type="submit" class="btn btn-primary">Crear usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

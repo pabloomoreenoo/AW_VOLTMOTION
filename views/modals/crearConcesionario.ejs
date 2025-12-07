@@ -1,0 +1,40 @@
+<!--(cuandod creamos concesionario)-->
+<div class="modal fade" id="modalAddConcesionario" tabindex="-1" aria-labelledby="modalAddConcesionarioLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="form-add-concesionario" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAddConcesionarioLabel">Añadir concesionario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            
+
+            <div class="mb-3">
+              <label for="add-nombre" class="form-label">Nombre</label>
+              <input id="add-nombre" name="nombre" class="form-control" required minlength="2">
+
+            </div>
+
+            <div class="mb-3">
+              <label for="add-ciudad" class="form-label">Ciudad</label>
+              <input id="add-ciudad" name="ciudad" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="add-direccion" class="form-label">Dir</label>
+              <input id="add-direccion" name="direccion" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label for="add-telefono" class="form-label">Tel</label>
+              <input id="add-telefono" name="telefono" class="form-control">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button id="btn-add-submit" type="submit" class="btn btn-primary">Crear concesionario</button>
+          </div>
+        </form>
+      </div>
+</div>

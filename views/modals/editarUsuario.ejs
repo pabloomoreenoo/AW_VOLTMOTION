@@ -1,0 +1,52 @@
+<!-- modal desplegado al clicar en usuaro -->
+      <div class="modal fade" id="modalEditUser" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <form id="form-edit-user" class="needs-validation" novalidate>
+              <div class="modal-header">
+                <h5 class="modal-title">Editar usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="edit-id" />
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input id="edit-nombre" class="form-control" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Correo</label>
+                    <input id="edit-correo" type="email" class="form-control" required />
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Rol</label>
+                    <select id="edit-rol" class="form-select">
+                      <option value="empleado">empleado</option>
+                      <option value="admin">admin</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Teléfono</label>
+                    <input id="edit-telefono" class="form-control" />
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">ID Concesionario</label>
+                    <input id="edit-id-concesionario" class="form-control" />
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Nueva contraseña (opcional)</label>
+                    <input id="edit-nueva-contrasena" type="password" class="form-control" placeholder="Dejar vacío para mantener" />
+                    <div class="form-text">Si rellenas esto, la contraseña del usuario será cambiada (se encriptará).</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="btn-save-user" type="submit" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+</div>

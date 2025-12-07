@@ -6,12 +6,33 @@
 
         <%- include('partials/header') %>
 
-        
+        <main class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="mb-0">Concesionarios de VOLTMOTION</h1> 
+                <div>
+                    <button id="btn-open-add-concesionario" class="btn btn-primary">
+                    Añadir concesionario
+                    </button>
+                </div>
+            </div>
 
+            <section aria-labelledby="listado-title">
+                <h2 id="listado-title" class="h6 visually-hidden">Listado de concesionarios</h2>
+
+                <div id="concesionarios-container" class="list-group">
+                    <!--parte qye rellenaremos con JS-->
+                </div>
+
+                <div id="concesionarios-empty" class="text-muted mt-3" hidden>No hay concesionarios.</div>
+            </section>
+        </main>
+
+        <%- include('modals/crearConcesionario') %>
         <%- include('partials/footer') %>
 
         <!-- SCRIPTS -->
         <script src="/js/api.js"></script>
+        <script src="/js/gestionarConcesionarios-ui.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         </body>
 </html>

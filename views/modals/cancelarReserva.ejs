@@ -1,0 +1,23 @@
+<!--modla q aparece despues de canclear una reserva-->
+<div class="modal fade" id="modalReservaCancelada" tabindex="-1" aria-labelledby="modalReservaCanceladaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalReservaCanceladaLabel">Reserva cancelada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-cancel-msg">Se ha cancelado la reserva correctamente</p>
+        <ul class="list-unstyled mb-0">
+          <li><strong>ID reserva:</strong> <span id="modal-cancel-id">—</span></li>
+          <li><strong>Vehiculo:</strong> <span id="modal-cancel-veh">—</span></li>
+          <li><strong>Matricula:</strong> <span id="modal-cancel-mat">—</span></li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <!--<a href="/vehiculos" class="btn btn-primary">Ver vehículos</a>-->
+      </div>
+    </div>
+  </div>
+</div>

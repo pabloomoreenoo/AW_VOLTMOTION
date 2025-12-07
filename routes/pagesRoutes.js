@@ -55,6 +55,10 @@ router.get('/gestionConcesionarios', ensureAuthenticated, (req, res) => {
   res.render('gestionConcesionarios', { user: req.session.user });
 });
 
+router.get('/gestionUsuarios', ensureAuthenticated, (req, res) => {
+  res.render('gestionUsuarios', { user: req.session.user });
+});
+
 router.get('/estadisticas', ensureAuthenticated, (req, res) => {
   res.render('estadisticas', { user: req.session.user });
 });

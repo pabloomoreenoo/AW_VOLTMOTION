@@ -14,6 +14,44 @@ document.addEventListener('DOMContentLoaded', () =>{
         }
     }
 
+    function showCancelModal(reserva) {
+        try {
+        const modalEl = document.getElementById('modalReservaCancelada');
+        if (!modalEl) return;
+        const setText = (idSel, val) => {
+            const el = document.getElementById(idSel);
+            if (el) el.textContent = val || '—';
+        };
+        setText('modal-cancel-id', reserva.id_reserva || reserva.id || 'N/A');
+        setText('modal-cancel-veh', `${reserva.marca || ''} ${reserva.modelo || ''}`);
+        setText('modal-cancel-mat', reserva.matricula || '—');
+
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+        } catch (e) {
+        console.warn('No se pudo mostrar modal', e);
+        }
+    }
+
+    function showFinishModal(reserva) {
+        try {
+        const modalEl = document.getElementById('modalReservaFinalizada');
+        if (!modalEl) return;
+        const setText = (idSel, val) => {
+            const el = document.getElementById(idSel);
+            if (el) el.textContent = val || '—';
+        };
+        setText('modal-finish-id', reserva.id_reserva || reserva.id || 'N/A');
+        setText('modal-finish-veh', `${reserva.marca || ''} ${reserva.modelo || ''}`);
+        setText('modal-finish-mat', reserva.matricula || '—');
+
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+        } catch (e) {
+        console.warn('No se pudo mostrar modal', e);
+        }
+    }
+
     function createReservaItem(r){
         const item = document.createElement('div'); 
         item.className = 'list-group-item d-flex gap-3 align-items-center';
@@ -48,8 +86,7 @@ document.addEventListener('DOMContentLoaded', () =>{
             const btnCancel = document.createElement('button');
             btnCancel.className = 'btn btn-sm btn-outline-danger';
             btnCancel.textContent = 'Cancelar reserva';
-            btnCancel.addEventListener('click', async() =>{
-                if(!confirm('¿Seguro que deseas cancelar esta reserva?'))return; 
+            btnCancel.addEventListener('click', async() =>{ 
                 btnCancel.disabled = true; 
                 btnCancel.textContent = 'Cancelando...'; 
                 try{
@@ -62,8 +99,11 @@ document.addEventListener('DOMContentLoaded', () =>{
                     if (!res.ok) throw new Error(body && body.error ? body.error : 'Error cancelando reserva');
                     // mover la reserva a terminadas en la UI
                     item.remove();
-                    appendTerminada(Object.assign({}, r, { estado: 'cancelado' }));
+                    const updated = Object.assign({}, r, { estado: 'cancelado' });
+                    appendTerminada(updated);
                     refreshEmptyStates();
+
+                    showCancelModal(updated)
                 }catch(err){
                     console.error('Error en la cancelacion', err); 
                     alert('No se pudo cancelar: ' + (err.message || err)); 
@@ -76,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () =>{
             btnFinish.className = 'btn btn-sm btn-outline-success';
             btnFinish.textContent = 'Finalizar reserva';
             btnFinish.addEventListener('click', async () => {
-                if (!confirm('¿Seguro que deseas finalizar esta reserva?')) return;
                 btnFinish.disabled = true;
                 btnFinish.textContent = 'Finalizando...';
                 try {
@@ -99,7 +138,9 @@ document.addEventListener('DOMContentLoaded', () =>{
 
                     // mover a terminadas en UI
                     item.remove();
-                    appendTerminada(Object.assign({}, r, { estado: 'finalizada' }));
+                    const updatedF = Object.assign({}, r, { estado: 'finalizada' })
+                    appendTerminada(updatedF);
+                    showFinishModal(updatedF); 
                     refreshEmptyStates();
                 } catch (err) {
                     console.error('Error al finalizar la reserva', err);

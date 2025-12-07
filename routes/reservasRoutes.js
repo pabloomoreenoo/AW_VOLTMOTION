@@ -42,6 +42,25 @@ router.post('/', ensureAuthenticated, async (req, res) =>{
     }
 })
 
+// ruta para poder ver tods las reservas
+router.get('/', ensureAuthenticated, async(req, res)=>{
+    if(!req.session.user) return res.status(401).json({ error: 'No autenticado' });
+
+    try{
+        const [rows] = await pool.query(
+        `SELECT r.id_reserva, r.id_usuario, r.id_vehiculo, r.fecha_inicio, r.fecha_fin, r.estado,
+                v.matricula, v.marca, v.modelo, v.imagen
+        FROM reservas r
+        LEFT JOIN vehiculos v ON r.id_vehiculo = v.id_vehiculo
+        ORDER BY r.fecha_inicio DESC`
+        );
+        res.json({ ok: true, reservas: rows });
+    }catch(err){
+        console.error(err); 
+        res.status(500).json({error: 'Err listando reservas'})
+    }
+})
+
 // mostrar reservas
 router.get('/mias', ensureAuthenticated, async(req, res) =>{
     const id_usuario = req.session.user && req.session.user.id;
@@ -86,10 +105,6 @@ router.post('/:id/cancel', ensureAuthenticated, async(req, res) =>{
         }
 
         const reserva = rows[0];
-        if (reserva.id_usuario !== id_usuario) {
-        await conn.rollback();
-        return res.status(403).json({ error: 'No tienes permiso para cancelar esta reserva' });
-        }
         if (reserva.estado !== 'activa') {
         await conn.rollback();
         return res.status(400).json({ error: 'Solo se pueden cancelar reservas activas' });
