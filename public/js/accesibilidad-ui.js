@@ -104,7 +104,7 @@
 
   if(btnReset) btnReset.addEventListener('click', (e) => {
     e.preventDefault();
-    if(!confirm('¿Restaurar las preferencias por defecto?')) return;
+    //if(!confirm('¿Restaurar las preferencias por defecto?')) return;
     resetPrefs();
   });
 

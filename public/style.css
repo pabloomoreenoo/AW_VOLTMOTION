@@ -150,13 +150,13 @@
 
 /* links y botones brillantes para contrastar */
 .vm-high-contrast a, .vm-high-contrast .nav-link {
-  color: #fa5b05 !important; 
-  text-decoration: underline !important;
+  color: #0b0b0b !important; 
+  /*text-decoration: underline !important;*/
 }
 .vm-high-contrast .btn, .vm-high-contrast button {
-  background-color: #1f6feb !important;
-  border-color: #1f6feb !important;
-  color: #fff !important;
+  background-color: #fefefe !important;
+  border-color: #060606 !important;
+  color: #0a0a0a !important;
   box-shadow: none !important;
 }
 
@@ -196,5 +196,25 @@
 /* Evita que imgenes rompan contraste: añadr borde */
 .vm-high-contrast img { filter: brightness(0.95) contrast(1.05); }
 
+.vm-high-contrast .btn:hover,
+.vm-high-contrast button:hover {
+    background-color: #080808 !important;
+    color: #fffcfc !important;
+    border-color: #faf8f5 !important; 
+}
 
+.vm-high-contrast .form-label,
+.vm-high-contrast label {
+  color: #080808 !important;
+}
+
+.vm-high-contrast .modal-title,
+.vm-high-contrast title{
+    color: #080808 !important;
+}
+
+.vm-high-contrast .form-check-label,
+.vm-high-contrast label{
+    color: #fdfafa !important;
+}
 

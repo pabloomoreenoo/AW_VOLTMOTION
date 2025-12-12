@@ -24,14 +24,33 @@
                         Bienvenid@, <%= (user && user.nombre) ? user.nombre : 'usuario' %> 
                     </h1>
 
-                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
-                        <a href="/gestionVehiculos" class="btn btn-outline-light btn-lg px-4">Gestionar vehículos</a>
-                        <a href="/gestionReservas" class="btn btn-outline-light btn-lg px-4">Gestionar reservas</a>
-                        <a href="/gestionConcesionarios" class="btn btn-outline-light btn-lg px-4">Gestionar concesionarios</a>
-                        <a href="/gestionUsuarios" class="btn btn-outline-light btn-lg px-4">Gestionar Usuarios</a>
-                        <a href="/accesibilidad" class="btn btn-outline-light btn-lg px-4">Preferencias accesibilidad</a>
-                        <a href="/estadisticas" class="btn btn-outline-light btn-lg px-4">Visualizar estadísticas</a>
+                    <div class="container">
+                        <div class="row g-2 justify-content-center">
 
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/gestionVehiculos" class="btn btn-outline-light btn-lg w-100">Gestionar vehículos</a>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/gestionReservas" class="btn btn-outline-light btn-lg w-100">Gestionar reservas</a>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/gestionConcesionarios" class="btn btn-outline-light btn-lg w-100">Concesionarios</a>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/gestionUsuarios" class="btn btn-outline-light btn-lg w-100">Gestionar Usuarios</a>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/accesibilidad" class="btn btn-outline-light btn-lg w-100">Accesibilidad</a>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/estadisticas" class="btn btn-outline-light btn-lg w-100">Estadísticas</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

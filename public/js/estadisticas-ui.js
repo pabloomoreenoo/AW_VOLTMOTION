@@ -52,31 +52,84 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Donut: canceladas vs resto (repasar porque no funciona correctamente en el prctg)
     try {
-      const totals = data.totals || { canceladas: 0, total: 0 };
-      const canceladas = Number(totals.canceladas || 0);
-      const total = Number(totals.total || 0);
-      const resto = Math.max(0, total - canceladas);
+      // obtener totals de forma robusta
+  const tryGet = (obj, ...keys) => {
+    if (!obj) return undefined;
+    for (const k of keys) if (obj[k] !== undefined) return obj[k];
+    return undefined;
+  };
 
-      const ctxCancel = document.getElementById('chartCancel');
-      if (ctxCancel && window.Chart) {
-        new Chart(ctxCancel.getContext('2d'), {
-          type: 'doughnut',
-          data: {
-            labels: ['Canceladas', 'Resto'],
-            datasets: [{
-              data: [canceladas, resto],
-              backgroundColor: ['#dc3545', '#198754'],
-              borderColor: ['#fff', '#fff'],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom' } }
+  // 1) valores declarados por la API
+  const declaredTotals = data.totals || data.summary || {};
+  let canceladas = Number(tryGet(declaredTotals, 'canceladas','canceladas_count','canceled','cancelled','cancelledCount')) || 0;
+  let total = Number(tryGet(declaredTotals, 'total','total_reservas','totalReservations','total_count')) || 0;
+
+  // 2) si no hay totals, intentar calcular a partir de arrays que la API pueda devolver
+  if ((!total || total === 0) && Array.isArray(data.reservas)) {
+    total = data.reservas.length;
+    canceladas = data.reservas.reduce((acc, r) => {
+      const st = String(r.estado || '').toLowerCase();
+      return acc + (st.includes('cancel') ? 1 : 0);
+    }, 0);
+  } else if ((!total || total === 0) && Array.isArray(data.allReservations)) {
+    total = data.allReservations.length;
+    canceladas = data.allReservations.reduce((acc, r) => {
+      const st = String(r.estado || '').toLowerCase();
+      return acc + (st.includes('cancel') ? 1 : 0);
+    }, 0);
+  } else {
+    // 3) intento adicional: sumar topUsuarios/topVehicles->reservas si total sigue a 0 (fallback)
+    if ((!total || total === 0) && Array.isArray(data.topVehicles)) {
+      total = data.topVehicles.reduce((s, v) => s + Number(v.reservas || 0), 0);
+      // no podemos inferir canceladas desde topVehicles
+    }
+  }
+
+  // asegurarse de tipos numéricos válidos
+  canceladas = Number.isFinite(Number(canceladas)) ? Number(canceladas) : 0;
+  total = Number.isFinite(Number(total)) ? Number(total) : 0;
+
+  // actualizar texto de porcentaje (seguro)
+  const pct = total > 0 ? Math.round((canceladas / total) * 100) : 0;
+  if (cancelPctEl) cancelPctEl.textContent = `${pct}%`;
+
+  // dibujar donut con Chart.js
+  const ctxCancel = document.getElementById('chartCancel');
+  if (ctxCancel && window.Chart) {
+    // destruir instancia previa si existe (evita duplicados)
+    if (ctxCancel._chartInstance) ctxCancel._chartInstance.destroy();
+
+    const resto = Math.max(0, total - canceladas);
+    ctxCancel._chartInstance = new Chart(ctxCancel.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Canceladas', 'Resto'],
+        datasets: [{
+          data: (total === 0) ? [0, 1] : [canceladas, resto],
+          backgroundColor: ['#dc3545', '#198754'],
+          borderColor: ['#fff', '#fff'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const v = context.raw || 0;
+                const label = context.label || '';
+                const percentLocal = total > 0 ? Math.round((v / total) * 100) : 0;
+                return `${label}: ${v} (${percentLocal}%)`;
+              }
+            }
           }
-        });
+        }
       }
+    });
+  }
     } catch(e){ console.warn('chartCancel error', e); }
 
     // --- Top covhes

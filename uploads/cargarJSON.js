@@ -4,13 +4,72 @@ const db = require('../db');
 const bcrypt = require('bcrypt');
 
 // funcion para cargar JSON a la base de datos
+async function crearTablasSiNoExisten() {
+    
+    const ddls = [
+`CREATE TABLE IF NOT EXISTS concesionarios (
+  id_concesionario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(200) NOT NULL,
+  ciudad VARCHAR(100),
+  direccion VARCHAR(255),
+  telefono VARCHAR(50)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`,
+
+`CREATE TABLE IF NOT EXISTS usuarios (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(200) NOT NULL,
+  correo VARCHAR(200) NOT NULL UNIQUE,
+  contrasena VARCHAR(255) NOT NULL,
+  rol ENUM('empleado','admin') NOT NULL DEFAULT 'empleado',
+  telefono VARCHAR(25),
+  id_concesionario INT,
+  preferencias_accesibilidad JSON,
+  FOREIGN KEY (id_concesionario) REFERENCES concesionarios(id_concesionario) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`,
+
+`CREATE TABLE IF NOT EXISTS vehiculos (
+  id_vehiculo INT AUTO_INCREMENT PRIMARY KEY,
+  matricula VARCHAR(25) NOT NULL UNIQUE,
+  marca VARCHAR(100),
+  modelo VARCHAR(100),
+  ano_matriculacion INT,
+  numero_plazas INT,
+  autonomia_km INT,
+  color VARCHAR(50),
+  imagen VARCHAR(255),
+  estado ENUM('disponible','reservado','mantenimiento') DEFAULT 'disponible',
+  id_concesionario INT,
+  FOREIGN KEY (id_concesionario) REFERENCES concesionarios(id_concesionario) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`,
+
+`CREATE TABLE IF NOT EXISTS reservas (
+  id_reserva INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  id_vehiculo INT NOT NULL,
+  fecha_inicio DATETIME,
+  fecha_fin DATETIME,
+  estado ENUM('activa','finalizada','cancelado') DEFAULT 'activa',
+  kilometros_recorridos INT DEFAULT 0,
+  incidencias_reportadas TEXT,
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_vehiculo) REFERENCES vehiculos(id_vehiculo) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+    ];
+
+    for (const ddl of ddls) {
+        await db.query(ddl);
+    }
+}
+
 async function cargarDatosIniciales() {
     try {
         console.log('Verificando estado de la base de datos...');
 
+        
+        await crearTablasSiNoExisten();
+
         let concesTotal = 0, usersTotal = 0, vehiTotal = 0;
 
-        // Verificar si las tablas existen y cuántos registros tienen
         try {
             const [rows] = await db.query("SELECT COUNT(*) as total FROM concesionarios");
             concesTotal = rows[0].total;
@@ -28,12 +87,6 @@ async function cargarDatosIniciales() {
 
         console.log(`Estado actual BD → ${concesTotal} concesionarios | ${usersTotal} usuarios | ${vehiTotal} vehículos`);
 
-        // Solo cargar si alguna tabla está vacía (o todas)
-        /*if (concesTotal > 0 && usersTotal > 0 && vehiTotal > 0) {
-            console.log('Base de datos ya tiene datos. Saltando carga inicial.');
-            return { exito: true, mensaje: 'Datos ya existentes', yaCargado: true };
-        }*/
-
         console.log('Cargando datos iniciales desde JSON...');
 
         const concesionariosPath = path.join(__dirname, './concesionarios.json');
@@ -46,10 +99,11 @@ async function cargarDatosIniciales() {
 
         console.log(`JSON cargados → ${concesionarios.length}C | ${usuarios.length}U | ${vehiculos.length}V`);
 
-        // Limpiar tablas (por si hay datos parciales)
+        
         console.log('Limpiando tablas existentes...');
         await db.query("SET FOREIGN_KEY_CHECKS = 0");
-        await db.query("TRUNCATE TABLE reservas");        // si existe
+        
+        await db.query("TRUNCATE TABLE reservas");
         await db.query("TRUNCATE TABLE vehiculos");
         await db.query("TRUNCATE TABLE usuarios");
         await db.query("TRUNCATE TABLE concesionarios");
@@ -58,7 +112,7 @@ async function cargarDatosIniciales() {
 
         let consCreados = 0, usersCreados = 0, vehiCreados = 0;
 
-        // 1. Cargar Concesionarios
+        
         console.log('Cargando concesionarios...');
         for (const c of concesionarios) {
             await db.query(
@@ -70,12 +124,22 @@ async function cargarDatosIniciales() {
             console.log(`  Concesionario: ${c.nombre} (${c.ciudad})`);
         }
 
-        // 2. Cargar Usuarios (necesitan id_concesionario → ya existen los concesionarios)
+        
         console.log('Cargando usuarios...');
         for (const u of usuarios) {
             const rawPass = (u.contrasena && String(u.contrasena)) || null;
 
-            const hashed = await bcrypt.hash(rawPass, 10);
+            
+            let hashed;
+            if (!rawPass) {
+                hashed = null;
+            } else if (/^\$2[aby]\$/.test(rawPass)) {
+                // parece un bcrypt hash ya
+                hashed = rawPass;
+            } else {
+                hashed = await bcrypt.hash(rawPass, 10);
+            }
+
             await db.query(
                 `INSERT INTO usuarios 
                  (nombre, correo, contrasena, rol, telefono, id_concesionario, preferencias_accesibilidad) 
@@ -111,8 +175,8 @@ async function cargarDatosIniciales() {
                     v.autonomia_km,
                     v.color,
                     v.imagen || null,
-                    v.estado,
-                    v.id_concesionario
+                    v.estado || 'disponible',
+                    v.id_concesionario || null
                 ]
             );
             vehiCreados++;
