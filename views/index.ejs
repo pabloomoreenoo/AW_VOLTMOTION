@@ -1,283 +1,382 @@
 <!doctype html>
 <html lang="es">
-  <%- include('partials/head') %>
+<%- include('partials/head') %>
 
-  <body>
-    <%- include('partials/header') %>
+<body>
+<%- include('partials/header') %>
 
-   
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" role="dialog">
-            <div class="offcanvas-header"> <!--Cogido de bootstrap-->
-                <h5 id="offcanvasRightLabel">Accede a tu cuenta</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<!-- ── Offcanvas: Cuenta ────────────────────────────────── -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+     aria-labelledby="offcanvasRightLabel" role="dialog">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Accede a tu cuenta</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="offcanvas-account-body">
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="nombre@ejemplo.com">
+                <span class="error text-danger small" id="error-email" aria-live="polite"></span>
             </div>
-            <div class="offcanvas-body">
-                <div id="offcanvas-account-body">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                        <span class="error" id="error-email" aria-live="polite"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password"
-                        name="password">
-                        <span class="error" id="error-password" aria-live="polite"></span>
-                    </div>
-                    <div class="signIn-buttons mt-4 d-grid gap-3">
-                        <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesion</button>
-                    </div>
-                </div>
-            </div>          
-        </div>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettingsLabel" role="dialog">
-            <div class="offcanvas-header"> <!--Cogido de bootstrap-->
-                        <h5 id="offcanvasSettingsLabel">Ajustes</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span class="error text-danger small" id="error-password" aria-live="polite"></span>
             </div>
-            <div class="offcanvas-body">
-                <ul class="offcanvas-bar">
-                    
-                </ul>
-            </div>
-        </div>
-
-    <main>
-      <section class="hero" id="imagenFondo">  <!-- Duda aqui sobre el fieldset de la p3-->
-        <h1 class="visually-hidden">Reserva tu coche electrico con VOLTMOTION</h1>
-        <img src="img/tesla_coche.jpg" class="d-block w-100" alt="coche electrico en ciudad">
-        </section>
-
-    <div class="container-fluid bg-light py-5 ms-3 text-center">
-        <h2>Nuestros principales proovedores:</h2>
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/tesla.png" alt="logo tesla" width="50" height="55">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/hyundai.webp" alt="logo hyundai" width="60" height="65">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/kia.jpg" alt="logo kia" width="65" height="65">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/byd.webp" alt="logo byd" width="60" height="65">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/volvo.jpg" alt="logo volvo" width="65" height="60">
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <img src="img/mercedes.jpg" alt="logo mercedes" width="80" height="65">
+            <div class="mt-4 d-grid">
+                <button class="btn btn-primary" type="button" id="LoginButton">Iniciar sesión</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container mt-5">
-        <h2 class="text-center">ACERCA DE</h2>
-        <div class="row">
-            <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia eius assumenda tenetur sapiente illum commodi. Nulla rerum tenetur, vitae illo magni cupiditate repudiandae corrupti, nostrum laborum ea nemo nam error.</div>
-            <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime odio cupiditate alias vitae. Nihil harum, soluta perspiciatis magni deserunt nam, dolores cupiditate consectetur sint, dolore quod esse! Illum, aliquid nobis?</div>
-        </div>
+<!-- ── Offcanvas: Ajustes ───────────────────────────────── -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSettings"
+     aria-labelledby="offcanvasSettingsLabel" role="dialog">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSettingsLabel">Ajustes</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
     </div>
+    <div class="offcanvas-body">
+        <ul class="offcanvas-bar"></ul>
+    </div>
+</div>
 
-    <!--Tarjetas-->
-    <div class="container2 mt-5 ms-3">
-        <h2>Destinos más populares:</h2>
-        <div class="row g-4">
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100">
-                    <img src="img/valencia.jpg" class="card-img-top" alt="valencia">
-                    <div class="card-body">
-                        <h5 class="card-title">Valencia</h5>
-                        <p class="card-text"></p>
-                    </div>
+<main>
+
+    <!-- ══════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════ -->
+    <section class="hero" id="imagenFondo">
+        <h1 class="visually-hidden">Reserva tu coche eléctrico con VOLTMOTION</h1>
+        <img src="img/tesla_coche.jpg" class="d-block w-100" alt="Coche eléctrico en ciudad">
+
+        <div class="hero-overlay">
+            <h1>
+                Conduce el futuro.<br>
+                <span class="accent">100&nbsp;% eléctrico.</span>
+            </h1>
+            <p class="hero-sub">
+                Reserva en minutos. Recoge en tu ciudad. Viaja sin emisiones.
+            </p>
+            <a href="/vehiculos" class="btn-hero">Ver vehículos disponibles</a>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         PROVEEDORES
+    ══════════════════════════════════════════ -->
+    <div class="vm-providers">
+        <div class="container text-center">
+            <p class="vm-providers-label mb-3">Nuestros proveedores</p>
+            <div class="row align-items-center justify-content-center g-4">
+                <div class="col-4 col-sm-2">
+                    <img src="img/tesla.png"    class="vm-provider-logo" alt="Tesla">
                 </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100">
-                    <img src="img/barcelona.jpg" class="card-img-top" alt="barcelona">
-                    <div class="card-body">
-                        <h5 class="card-title">Barcelona</h5>
-                        <p class="card-text"></p>
-                    </div>
+                <div class="col-4 col-sm-2">
+                    <img src="img/hyundai.webp" class="vm-provider-logo" alt="Hyundai">
                 </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100">
-                    <img src="img/madrid.jpg" class="card-img-top" alt="madrid">
-                    <div class="card-body">
-                        <h5 class="card-title">Madrid</h5>
-                        <p class="card-text"></p>
-                    </div>
+                <div class="col-4 col-sm-2">
+                    <img src="img/kia.jpg"      class="vm-provider-logo" alt="Kia">
                 </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100">
-                    <img src="img/zaragoza.jpg" class="card-img-top" alt="zaragoza">
-                    <div class="card-body">
-                        <h5 class="card-title">Zaragoza</h5>
-                        <p class="card-text"></p>
-                    </div>
+                <div class="col-4 col-sm-2">
+                    <img src="img/byd.webp"     class="vm-provider-logo" alt="BYD">
                 </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100" >
-                    <img src="img/sevilla.jpg" class="card-img-top" alt="sevilla">
-                    <div class="card-body">
-                        <h5 class="card-title">Sevilla</h5>
-                        <p class="card-text"></p>
-                    </div>
+                <div class="col-4 col-sm-2">
+                    <img src="img/volvo.jpg"    class="vm-provider-logo" alt="Volvo">
                 </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4 col-sm-6">
-                <div class="card h-100" >
-                    <img src="img/bilbao.webp" class="card-img-top" alt="bilbao">
-                    <div class="card-body">
-                        <h5 class="card-title">Bilbao</h5>
-                        <p class="card-text"></p>
-                    </div>
+                <div class="col-4 col-sm-2">
+                    <img src="img/mercedes.jpg" class="vm-provider-logo" alt="Mercedes">
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div class="container-fluid mt-5"></div>   
-        <div class="row">
-            <div class="col">
-                <h2 class="text-center mb-4">Preguntas frecuentes</h2>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            ¿Qué necesito para alquilar un coche eléctrico?
-                        </button>
-                        </h2>
-                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" role="region">
-                        <div class="accordion-body">Solo necesitas tener el carné de conducir en vigor, un método de pago válido y registrarte en nuestra plataforma. Una vez registrado, podrás reservar y recoger tu vehículo de forma totalmente digital.</div>
+    <!-- ══════════════════════════════════════════
+         ACERCA DE
+    ══════════════════════════════════════════ -->
+    <section class="vm-section-alt">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">
+                    <p class="vm-section-label">Quiénes somos</p>
+                    <h2 class="vm-section-title">Movilidad eléctrica para todos</h2>
+                    <p class="vm-about-lead mt-3">
+                        En VOLTMOTION creemos que la transición hacia una movilidad sostenible debe ser
+                        accesible, sencilla y asequible. Nuestra plataforma conecta a conductores con
+                        una flota premium de vehículos eléctricos disponibles en las principales
+                        ciudades de España.
+                    </p>
+                    <p class="vm-about-lead">
+                        Desde el proceso de reserva hasta la recogida del vehículo, todo está
+                        diseñado para que te concentres en lo que importa: disfrutar del viaje.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="vm-stat-box">
+                                <div class="vm-stat-num">+500</div>
+                                <div class="vm-stat-label">Vehículos disponibles</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            ¿Cuánto tiempo puedo reservar un vehículo?
-                        </button>
-                        </h2>
-                        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample" role="region">
-                        <div class="accordion-body">Puedes alquilarlo desde una hora hasta varios días, según tus necesidades. Nuestra plataforma te mostrará la disponibilidad en tiempo real y los precios actualizados antes de confirmar tu reserva.</div>
+                        <div class="col-6">
+                            <div class="vm-stat-box">
+                                <div class="vm-stat-num">6</div>
+                                <div class="vm-stat-label">Ciudades en España</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                            ¿Dónde puedo recoger y devolver el coche?
-                        </button>
-                        </h2>
-                        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample" role="region">
-                        <div class="accordion-body">Puedes recoger y devolver el coche en cualquiera de nuestros concesionarios asociados. En el mapa de la aplicación verás el punto más cercano y el horario de apertura de cada base.</div>
+                        <div class="col-6">
+                            <div class="vm-stat-box">
+                                <div class="vm-stat-num">24h</div>
+                                <div class="vm-stat-label">Soporte al cliente</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingFour">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                            ¿Qué pasa si el coche se queda sin batería durante el alquiler?
-                        </button>
-                        </h2>
-                        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample" role="region">
-                        <div class="accordion-body">Nuestros vehículos cuentan con una amplia autonomía. Aun así, puedes usar cualquiera de los puntos de carga disponibles en la red pública. También dispones de asistencia 24 h en carretera incluida en tu reserva.</div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingFive">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-                            ¿Puedo cancelar o modificar una reserva?
-                        </button>
-                        </h2>
-                        <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample" role="region">
-                        <div class="accordion-body">Sí, puedes cancelar o modificar tu reserva desde tu perfil de usuario. Si lo haces con al menos 24 horas de antelación, no se aplicarán cargos adicionales.</div>
+                        <div class="col-6">
+                            <div class="vm-stat-box">
+                                <div class="vm-stat-num">0%</div>
+                                <div class="vm-stat-label">Emisiones de CO₂</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <h2 class="text-center mb-4">¿Por qué confiar en VOLTMOTION?</h2>
-                <div class="row gy-3"> <!--Gap en el eje y-->
-                    <div class="col-12 d-flex ms-3"><!--d-flex(Bootstrap) significa que los <div> de dentro se colocan en una fila, uno al lado del otro-->
-                        <div class="me-3 flex-shrink-0"><!--el icono no se encoge si falta espacio-->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         DESTINOS POPULARES
+    ══════════════════════════════════════════ -->
+    <section class="vm-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="vm-section-label">Disponible en</p>
+                <h2 class="vm-section-title centered">Destinos más populares</h2>
+                <p class="vm-section-desc mt-2">
+                    Recoge tu vehículo en cualquiera de nuestros concesionarios asociados.
+                </p>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Valencia">
+                        <img src="img/valencia.jpg" alt="Valencia">
+                        <div class="vm-card-label">Valencia</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Barcelona">
+                        <img src="img/barcelona.jpg" alt="Barcelona">
+                        <div class="vm-card-label">Barcelona</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Madrid">
+                        <img src="img/madrid.jpg" alt="Madrid">
+                        <div class="vm-card-label">Madrid</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Zaragoza">
+                        <img src="img/zaragoza.jpg" alt="Zaragoza">
+                        <div class="vm-card-label">Zaragoza</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Sevilla">
+                        <img src="img/sevilla.jpg" alt="Sevilla">
+                        <div class="vm-card-label">Sevilla</div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
+                    <a class="vm-card-destination" href="/vehiculos" aria-label="Ver vehículos en Bilbao">
+                        <img src="img/bilbao.webp" alt="Bilbao">
+                        <div class="vm-card-label">Bilbao</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         FAQ + POR QUÉ VOLTMOTION
+    ══════════════════════════════════════════ -->
+    <section class="vm-section-alt">
+        <div class="container">
+            <div class="row gy-5">
+
+                <!-- FAQ -->
+                <div class="col-lg-6">
+                    <p class="vm-section-label">Ayuda</p>
+                    <h2 class="vm-section-title mb-4">Preguntas frecuentes</h2>
+
+                    <div class="accordion" id="accordionFAQ">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="faq-h1">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq-c1"
+                                        aria-expanded="false" aria-controls="faq-c1">
+                                    ¿Qué necesito para alquilar un coche eléctrico?
+                                </button>
+                            </h3>
+                            <div id="faq-c1" class="accordion-collapse collapse"
+                                 aria-labelledby="faq-h1" data-bs-parent="#accordionFAQ" role="region">
+                                <div class="accordion-body">
+                                    Solo necesitas tener el carné de conducir en vigor, un método de pago
+                                    válido y registrarte en nuestra plataforma. Una vez registrado, podrás
+                                    reservar y recoger tu vehículo de forma totalmente digital.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="faq-h2">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq-c2"
+                                        aria-expanded="false" aria-controls="faq-c2">
+                                    ¿Cuánto tiempo puedo reservar un vehículo?
+                                </button>
+                            </h3>
+                            <div id="faq-c2" class="accordion-collapse collapse"
+                                 aria-labelledby="faq-h2" data-bs-parent="#accordionFAQ" role="region">
+                                <div class="accordion-body">
+                                    Puedes alquilarlo desde una hora hasta varios días, según tus necesidades.
+                                    Nuestra plataforma te mostrará la disponibilidad en tiempo real y los
+                                    precios actualizados antes de confirmar tu reserva.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="faq-h3">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq-c3"
+                                        aria-expanded="false" aria-controls="faq-c3">
+                                    ¿Dónde puedo recoger y devolver el coche?
+                                </button>
+                            </h3>
+                            <div id="faq-c3" class="accordion-collapse collapse"
+                                 aria-labelledby="faq-h3" data-bs-parent="#accordionFAQ" role="region">
+                                <div class="accordion-body">
+                                    Puedes recoger y devolver el coche en cualquiera de nuestros concesionarios
+                                    asociados. En el mapa de la aplicación verás el punto más cercano y el
+                                    horario de apertura de cada base.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="faq-h4">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq-c4"
+                                        aria-expanded="false" aria-controls="faq-c4">
+                                    ¿Qué pasa si el coche se queda sin batería?
+                                </button>
+                            </h3>
+                            <div id="faq-c4" class="accordion-collapse collapse"
+                                 aria-labelledby="faq-h4" data-bs-parent="#accordionFAQ" role="region">
+                                <div class="accordion-body">
+                                    Nuestros vehículos cuentan con una amplia autonomía. Aun así, puedes usar
+                                    cualquiera de los puntos de carga disponibles en la red pública. También
+                                    dispones de asistencia 24&nbsp;h en carretera incluida en tu reserva.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="faq-h5">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#faq-c5"
+                                        aria-expanded="false" aria-controls="faq-c5">
+                                    ¿Puedo cancelar o modificar una reserva?
+                                </button>
+                            </h3>
+                            <div id="faq-c5" class="accordion-collapse collapse"
+                                 aria-labelledby="faq-h5" data-bs-parent="#accordionFAQ" role="region">
+                                <div class="accordion-body">
+                                    Sí, puedes cancelar o modificar tu reserva desde tu perfil de usuario.
+                                    Si lo haces con al menos 24&nbsp;horas de antelación, no se aplicarán
+                                    cargos adicionales.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Por qué VOLTMOTION -->
+                <div class="col-lg-6">
+                    <p class="vm-section-label">Confianza</p>
+                    <h2 class="vm-section-title mb-4">¿Por qué VOLTMOTION?</h2>
+
+                    <div class="d-flex flex-column gap-2">
+
+                        <div class="vm-trust-item">
+                            <div class="vm-trust-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                 </svg>
                             </div>
                             <div>
-                                <h5 class="mb-1">Experiencia y profesionalidad</h5><!--mb-1(margin bottom) para separar el titulo del parrafo-->
-                                <p class="mb-0 small text-muted"><!--small(texto mas pequeños y text-muted en un tono mas claro)-->
-                                    Un equipo especializado en movilidad eléctrica y cientos de reservas
-                                    gestionadas con éxito.
-                                </p>
+                                <h5>Experiencia y profesionalidad</h5>
+                                <p>Un equipo especializado en movilidad eléctrica y cientos de reservas gestionadas con éxito.</p>
                             </div>
                         </div>
 
-                    <div class="col-12 d-flex ms-3">
-                        <div class="me-3 flex-shrink-0">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <div class="vm-trust-item">
+                            <div class="vm-trust-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                 </svg>
+                            </div>
+                            <div>
+                                <h5>Flota 100&nbsp;% eléctrica y revisada</h5>
+                                <p>Vehículos de cero emisiones con revisiones periódicas para garantizar seguridad y confort.</p>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="mb-1">Flota 100&nbsp;% eléctrica y revisada</h5><!--non breakable space-->
-                            <p class="mb-0 small text-muted">
-                                Vehículos de cero emisiones con revisiones periódicas para garantizar
-                                seguridad y confort.
-                            </p>
-                        </div>    
-                    </div>
 
-                    <div class="col-12 d-flex ms-3">
-                        <div class="me-3 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                            </svg>
+                        <div class="vm-trust-item">
+                            <div class="vm-trust-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h5>Reservas rápidas y sencillas</h5>
+                                <p>Todo el proceso es online: elige vehículo, horario y concesionario en cuestión de minutos.</p>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="mb-1">Reservas rápidas y sencillas</h5>
-                            <p class="mb-0 small text-muted">
-                                Todo el proceso se realiza online: eliges vehículo, horario y concesionario
-                                en cuestión de minutos.
-                            </p>
-                        </div>
-                    </div>
 
-                    <div class="col-12 d-flex ms-3">
-                        <div class="me-3 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                            </svg>
+                        <div class="vm-trust-item">
+                            <div class="vm-trust-icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h5>Atención 24&nbsp;h al cliente</h5>
+                                <p>Soporte permanente para ayudarte ante cualquier incidencia durante tu reserva.</p>
+                            </div>
                         </div>
-                        <div>
-                             <h5 class="mb-1">Atención 24&nbsp;h al cliente</h5>
-                             <p class="mb-0 small text-muted">
-                                Soporte permanente para ayudarte ante cualquier incidencia durante tu
-                                reserva.
-                            </p>
-                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
-    </main>
+    </section>
 
-    <%- include('partials/footer') %>
+</main>
 
-    <!-- SCRIPTS -->
-    <script src="/js/api.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/accesibilidad-ui.js"></script>
-  </body>
+<%- include('partials/footer') %>
+
+<!-- SCRIPTS -->
+<script src="/js/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/accesibilidad-ui.js"></script>
+</body>
 </html>
-

@@ -1,52 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-    <%- include('partials/head') %>
-    <body>
-        
+<html lang="es">
+<%- include('partials/head') %>
+<body>
 
-        <%- include('partials/header') %>
+<%- include('partials/header') %>
 
-        
-            <main class="container mt-4">
-                <h1>Preferencias de accesibilidad</h1>
-                <p>Ajusta el contraste, tamaño de fuente y navegación por teclado. Estas preferencias se guardarán y se aplicarán al iniciar sesión.</p>
+<main class="container" style="padding-top:2.5rem; padding-bottom:4rem; max-width:720px;">
 
-                <div class="card">
-                    <div class="card-body d-flex gap-3 align-items-center">
-                    <div class="form-check form-switch me-4">
-                        <input class="form-check-input" type="checkbox" id="access-contrast">
-                        <label class="form-check-label" for="access-contrast">Alto contraste</label>
-                    </div>
+    <div class="mb-4">
+        <p class="vm-section-label">Ajustes</p>
+        <h1 class="vm-section-title">Preferencias de accesibilidad</h1>
+        <p class="mt-2" style="color:var(--vm-gray-500);">
+            Ajusta el contraste, tamaño de fuente y navegación por teclado.
+            Estas preferencias se guardarán y se aplicarán al iniciar sesión.
+        </p>
+    </div>
 
-                    <div>
-                        <label for="access-fontsize" class="form-check-label">Tamaño de fuente</label>
-                        <select id="access-fontsize" class="form-select">
-                        <option value="small">Pequeño</option>
-                        <option value="normal" selected>Normal</option>
-                        <option value="large">Grande</option>
-                        </select>
-                    </div>
+    <div class="card" style="border-radius:var(--vm-radius-lg);">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap gap-4 align-items-start">
 
-                    <div class="form-check form-switch ms-4">
-                        <input class="form-check-input" type="checkbox" id="access-keynav">
-                        <label class="form-check-label" for="access-keynav">Navegación mejorada por teclado</label>
-                    </div>
-                    </div>
-
-                    <div class="card-footer d-flex gap-2">
-                    <button class="btn btn-primary" id="access-save">Guardar preferencias</button>
-                    <button class="btn btn-outline-secondary" id="access-reset">Restablecer</button>
-                    
-                    </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="access-contrast"
+                           style="width:2.5em; height:1.4em;">
+                    <label class="form-check-label fw-semibold ms-2" for="access-contrast">
+                        Alto contraste
+                    </label>
+                    <p class="text-muted small mt-1 mb-0">
+                        Fondo negro con texto blanco para máxima visibilidad.
+                    </p>
                 </div>
-                <%- include('modals/infoAccesibilidad') %>
-            </main>
 
-        <%- include('partials/footer') %>
+                <div>
+                    <label for="access-fontsize" class="form-label fw-semibold">Tamaño de fuente</label>
+                    <select id="access-fontsize" class="form-select" style="width:auto;">
+                        <option value="small">Pequeño (14px)</option>
+                        <option value="normal" selected>Normal (16px)</option>
+                        <option value="large">Grande (18px)</option>
+                    </select>
+                </div>
 
-        <!-- SCRIPTS -->
-        <script src="/js/api.js"></script>
-        <script src="/js/accesibilidad-ui.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-        </body>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="access-keynav"
+                           style="width:2.5em; height:1.4em;">
+                    <label class="form-check-label fw-semibold ms-2" for="access-keynav">
+                        Navegación mejorada por teclado
+                    </label>
+                    <p class="text-muted small mt-1 mb-0">
+                        Indicadores de foco más visibles al navegar con Tab.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-footer bg-transparent d-flex gap-2 p-4" style="border-top:1px solid var(--vm-border);">
+            <button class="btn btn-primary px-4" id="access-save">Guardar preferencias</button>
+            <button class="btn btn-outline-secondary" id="access-reset">Restablecer</button>
+        </div>
+    </div>
+
+    <%- include('modals/infoAccesibilidad') %>
+</main>
+
+<%- include('partials/footer') %>
+
+<!-- SCRIPTS -->
+<script src="/js/api.js"></script>
+<script src="/js/accesibilidad-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

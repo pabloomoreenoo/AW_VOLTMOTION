@@ -1,67 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
-    <%- include('partials/head') %>
-    <body>
-        
-        <%- include('partials/header') %>
+<html lang="es">
+<%- include('partials/head') %>
+<body>
 
-        <main>
-            <section class="hero position-relative" id="imagenFondo" style="overflow:hidden;">
-                <img src="img/tesla_coche.jpg" class="d-block w-100" alt="coche electrico en ciudad">
+<%- include('partials/header') %>
 
-                <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.45)); pointer-events: none;"></div>
+<main>
+    <section class="hero" id="imagenFondo">
+        <img src="img/tesla_coche.jpg" class="d-block w-100" alt="Panel de administración VOLTMOTION">
 
-                <div class="position-absolute" 
-                    style="top: 20px; right: 20px; z-index: 10; pointer-events:auto;">
-                    <div class="bg-light text-dark rounded-circle d-flex align-items-center justify-content-center border border-4 border-white shadow-lg"
-                        style="width: 70px; height: 70px; font-size: 2rem; font-weight: bold;">
-                        <%= user && user.nombre ? user.nombre.charAt(0).toUpperCase() : 'U' %>
+        <div class="hero-overlay">
+            <!-- Avatar -->
+            <div style="
+                width: 72px; height: 72px;
+                border-radius: 50%;
+                background: var(--vm-green);
+                color: #fff;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 1.9rem; font-weight: 800;
+                margin-bottom: 1rem;
+                box-shadow: 0 4px 20px rgba(34,197,94,0.45);
+                border: 3px solid rgba(255,255,255,0.3);
+            ">
+                <%= user && user.nombre ? user.nombre.charAt(0).toUpperCase() : 'A' %>
+            </div>
+
+            <h1 style="font-size:clamp(1.6rem,4vw,2.5rem); font-weight:800; color:#fff; margin-bottom:0.5rem;">
+                Bienvenid@, <%= (user && user.nombre) ? user.nombre : 'administrador' %>
+            </h1>
+            <p style="color:rgba(255,255,255,0.75); margin-bottom:2rem; font-size:1rem;">
+                Panel de administración — VOLTMOTION
+            </p>
+
+            <div class="container">
+                <div class="row g-2 justify-content-center" style="max-width:760px; margin-inline:auto;">
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/gestionVehiculos" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Vehículos
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/gestionReservas" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Reservas
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/gestionConcesionarios" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Concesionarios
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/gestionUsuarios" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Usuarios
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/estadisticas" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Estadísticas
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="/accesibilidad" class="btn btn-outline-light btn-lg w-100 fw-semibold">
+                            Accesibilidad
+                        </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+</main>
 
-                <div class="container position-absolute top-50 start-50 translate-middle text-center text-white" style="pointer-events:auto;">
-                    <h1 class="display-5 fw-bold mb-3">
-                        Bienvenid@, <%= (user && user.nombre) ? user.nombre : 'usuario' %> 
-                    </h1>
+<%- include('partials/footer') %>
 
-                    <div class="container">
-                        <div class="row g-2 justify-content-center">
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/gestionVehiculos" class="btn btn-outline-light btn-lg w-100">Gestionar vehículos</a>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/gestionReservas" class="btn btn-outline-light btn-lg w-100">Gestionar reservas</a>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/gestionConcesionarios" class="btn btn-outline-light btn-lg w-100">Concesionarios</a>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/gestionUsuarios" class="btn btn-outline-light btn-lg w-100">Gestionar Usuarios</a>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/accesibilidad" class="btn btn-outline-light btn-lg w-100">Accesibilidad</a>
-                            </div>
-
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <a href="/estadisticas" class="btn btn-outline-light btn-lg w-100">Estadísticas</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-
-        <%- include('partials/footer') %>
-
-        <!-- SCRIPTS -->
-        <script src="/js/api.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/accesibilidad-ui.js"></script>
-        </body>
+<!-- SCRIPTS -->
+<script src="/js/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/accesibilidad-ui.js"></script>
+</body>
 </html>
